@@ -1,0 +1,27 @@
+# Styrkur
+
+http://www.styrkurapp.com
+
+Styrkur is an easy to use, yet powerful tool to track your workout.
+Set up your own workout plan or use one of our predefined.
+
+There should not be a big step from writing your sets on a piece of paper to using an app.
+You will get a simple view of what you should do and how much you did the last time.
+With a built in timer you have full control over both your sets and your pauses.
+
+You get simple ways of keeping track of your progress.
+Styrkur offers both an simple list of your past sessions with your comments,
+and graphical view of your progress.
+
+Track your measurements, weight and muscle gain with a simple and charts.
+
+---------------
+
+Available on Play Store and App Store
+
+<a href="https://play.google.com/store/apps/details?id=com.styrkurapp.app&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+	<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge-border.png" height="45" />
+</a>
+<a href="https://itunes.apple.com/us/app/styrkur-workout-journal/id1013637235">
+	<img alt="Download on the App Store" src="http://styrkurapp.com/images/appstore.svg" height="45">
+</a>

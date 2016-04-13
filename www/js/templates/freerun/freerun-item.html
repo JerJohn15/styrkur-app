@@ -1,0 +1,24 @@
+<div class="set-heading container-padding">
+	<div>
+		<select class="form-control" name="muscle">
+			<option value="">Muscle</option>
+			<% parent.muscles.each(function(muscle){ %>
+				<option value="<%= muscle.get('id') %>"><%= muscle.get('name') %></option>
+			<%});%>
+		</select>
+	</div>
+	<div>
+		<select class="form-control" name="movement">
+			<option value="">Movement</option>
+		</select>
+	</div>
+</div>
+<div class="sets-list container-padding">
+	<div class="sets-item form-group">
+		<input name="reps" placeholder="Reps" min="0" type="number" class="form-control">
+		<input name="weight" placeholder="Weight (<%= units.weight %>)" min="0" type="number" class="form-control">
+	</div>
+</div>
+<div class="clearfix form-group">
+	<button class="pull-right btn btn-default btn-add-set">Add extra set</button>
+</div>

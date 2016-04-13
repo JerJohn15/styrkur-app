@@ -1,0 +1,62 @@
+<div class="select-edit-toggle muscle-select">
+	<label>Muscle group</label>
+	<div class="select-edit-list sidebyside">
+		<div>
+			<select class="form-control" name="muscleid">
+					<option value="">Select one or make your own</option>
+				<% parent.muscles.each(function(muscle){ %>
+					<option value="<%= muscle.get('id') %>"><%= muscle.get('name') %></option>
+				<%});%>
+			</select>
+		</div>
+		<div>
+			<button class="btn btn-default muscle-select-toggle icon icon-pen"></button>
+		</div>
+	</div>
+	<div class="select-edit-input sidebyside">
+		<div>
+			<input type="text" name="muscle" placeholder="Muscle" class="form-control">
+		</div>
+		<div>
+			<button class="btn btn-default muscle-select-toggle icon icon-list"></button>
+		</div>
+	</div>
+</div>
+<div class="movement-select">
+</div>
+<div>
+	<label>Type</label>
+	<select name="type" class="form-control">
+		<option value="weightrep">Weight/Reps</option>
+		<option value="weight">Weight</option>
+		<option value="reps">Repetitions</option>
+		<option value="distance">Distance</option>
+		<option value="time">Time</option>
+		<option value="beats">Heartrate</option>
+	</select>
+</div>
+<div>
+	<label>Sets &amp; Pause</label>
+	<div class="split-td">
+		<div class="split-td-inner">
+			<div class="input-group">
+			  <span class="input-group-addon"><i class="icon icon-reload"></i></span>
+			  <input type="number" name="sets" placeholder="Sets" class="form-control">
+			</div>
+		</div>
+		<div class="split-td-inner">
+			<div class="input-group">
+			  <span class="input-group-addon"><i class="icon icon-stopwatch"></i></span>
+			  <input type="number" name="pause" placeholder="Seconds of rest" class="form-control">
+			  <span class="input-group-addon">sek</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div>
+	<label>Enabled</label>
+	<label class="checkbox-label">
+		<input type="checkbox" name="enabled">
+		<i class="icon icon-check"></i>
+	</label>
+</div>

@@ -1,0 +1,12 @@
+body {
+	text-rendering: optimizeLegibility;
+	work-wrap: break-word;
+	-webkit-user-drag: none;
+	-webkit-text-size-adjust: none;
+	/*Stop user selecting text*/
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	/* Fix text rendering issues after anim */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

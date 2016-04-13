@@ -1,0 +1,26 @@
+<div class="view-header">
+
+	<a href="#/history/graph/<%=id%>" class="btn btn-transparent pull-right"><i class="icon icon-chart"></i></a>
+
+	<h2><%= name %></h2>
+	<% if(description) { %>
+	<p class="description">
+		<i class="icon icon-pen"></i><%= description %>
+	</p>
+	<% } %>
+</div>
+
+<div class="card card-outer">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Comment</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+</div>
+<div class="card">
+	<button class="btn btn-primary btn-back">Back</button>
+</div>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Styrkur</title>
+    
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/mfglabs_iconset.css" rel="stylesheet" />
+    <link href="css/toastr.css" rel="
+    stylesheet" />
+    <link href="css/app-optimize.css" rel="stylesheet" />
+    <link href="css/cards.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/transitions.css" rel="stylesheet" />
+    <link href="css/chartist.min.css" rel="stylesheet" />
+</head>
+<body> 
+    <div id="topbar" class="navbar-header">
+        <span class="navbar-brand">Styrkur</span>
+
+        <button class="timer-toggle pull-right">
+            <i class="icon icon-stopwatch"></i>
+        </button>
+    </div>
+    <div id="bodycontainer">
+        <div id="site-nav">
+        </div>
+        <div id="container" class="container container-fluid">
+        </div>
+    </div>
+    
+    <script src="libs/requirejs/require.js"></script>
+    <script src="libs/date/date.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        window.apiurl = 'http://styrkurapp.com/api/index.php';
+
+        if( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false ){
+            window.isIOS = true;
+            document.body.classList.add('ios-device');
+        }
+
+        requirejs.config({
+            baseUrl: 'js',
+            bust: 't=' + (new Date).getTime(),
+            paths: {
+                'jquery': '../libs/jquery/jquery-2.0.3',
+                'underscore': '../libs/underscore/underscore',
+                'backbone': '../libs/backbone/backbone',
+                'backbone.stickit': '../libs/backbone/backbone.stickit',
+                'backbone-wreqr': '../libs/backbone/backbone-wreqr',
+                'backbone-websql': '../libs/backbone/backbone-websql',
+                'text': '../libs/requirejs/text',
+                'moment': '../libs/moment/moment',
+                'toastr': '../libs/toastr/toastr',
+                'chartist': '../libs/chart/chartist'
+            },
+            shim: {
+                'backbone': {
+                    deps: ['underscore', 'jquery', ''],
+                    exports: 'Backbone'
+                },
+                'underscore': {
+                    exports: '_'
+                },
+                'bootstrap': {
+                    deps: ['jquery']
+                },
+                'backbone.stickit': {
+                    deps: ['backbone', 'jquery']
+                }
+            }
+        });
+
+        require([
+            'jquery',
+            'underscore',
+            'application',
+            'router',
+            'backbone'
+            ,'backbone-websql'
+            ,'js/templates/templates.js'
+        ], function ($, _, Application, Router, Backbone, WebSQLStore) {
+            window.db = openDatabase('fittracker', '', 'Styrkur db', 5 * 1024 * 1024);
+            window.WebSQLStore = WebSQLStore;
+            window.App = Application;
+            
+            Application.initialize(Router);
+        });
+    }());
+    </script>
+</body>
+</html>

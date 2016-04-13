@@ -1,0 +1,18 @@
+<div class="session-list-content">
+<h3><%= name %></h3>
+<% if(description !== 0) { %>
+	<p>
+		<%= description %>
+	</p>
+<% } %>
+<p>
+	<% if(count !== 0) { %>
+		<%= last %>
+	<% } %>
+</p>
+</div>
+<% if(count !== 0) { %>
+<div class="session-list-log">
+	<i class="icon icon-list"></i> Log
+</div>
+<% } %>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Styrkur</title>
+    
+    <link href="css/main.css" rel="stylesheet" />
+</head>
+<body> 
+    <div id="topbar" class="navbar-header">
+        <span class="navbar-brand">Styrkur</span>
+
+        <button class="timer-toggle pull-right">
+            <i class="icon icon-stopwatch"></i>
+        </button>
+    </div>
+    <div id="bodycontainer">
+        <div id="site-nav">
+        </div>
+        <div id="container" class="container container-fluid">
+        </div>
+    </div>
+    
+    <script src="libs/almond/almond.js"></script>
+    <script src="libs/date/date.js"></script>
+    <script src="js/main_app.js"></script>
+    <script src="cordova.js"></script>
+    <script src="cordova_plugins.js"></script>
+    <script>
+        var deviceReady = function () {
+            'use strict';
+            window.isMobile = true;
+
+            window.apiurl = 'http://styrkurapp.com/api/index.php';
+
+            
+            if( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false ){
+                window.isIOS = true;
+                document.body.classList.add('ios-device');
+            }
+            if(window.plugins && window.plugins.gaPlugin){
+                window.analytics = window.plugins.gaPlugin;
+                window.analytics.init(function(){
+                        console.log('analytics successfull!');
+                    }, function(){
+                        console.log('analytics failed!');
+                    }, "UA-2900214-11", 10);    
+            }
+            
+            require([
+                'jquery',
+                'underscore',
+                'application',
+                'router',
+                'backbone',
+                'backbone-websql'
+            ], function ($, _, Application, Router, Backbone, WebSQLStore) {
+                window.db = openDatabase('fittracker', '', 'Fittracker db', 1024 * 1024 * 10);
+                window.WebSQLStore = WebSQLStore;
+                window.App = Application;
+                
+                Application.initialize(Router);
+            });
+        };
+
+    document.addEventListener("deviceready", deviceReady ,false);
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<div class="view-header">
+	<h2><%= session.name %></h2>
+	<p class="date">
+		<i class="icon icon-calendar"></i>
+		<%=formatedDate%>
+	</p>
+	<% if(session.description) { %>
+	<p class="description">
+		<i class="icon icon-pen"></i>
+		<%= session.description %>
+	</p>
+	<% } %>
+	<% if(comment) { %>
+	<p class="comment">
+		<i class="icon icon-message"></i>
+		<%= comment %>
+	</p>
+	<%}%>
+</div>
+
+<div class="exercise-history-list">
+</div>
+<div class="card">
+	<button class="btn btn-primary btn-back">Back</button>
+</div>

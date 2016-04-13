@@ -1,0 +1,23 @@
+<div class="view-header">
+	<% if(description){ %>
+	<button class="btn btn-transparent pull-right toggle-description"><i class="icon icon-message"></i></button>
+	<% } %>
+	<h1><%= name %></h1>
+	<div class="session-description pre" style="display: none;"><%= description %></div>
+</div>
+<div class="sessions-list-container">
+	<div class="sessions-list-content">
+	</div>
+
+	<div class="card card-outer">
+		<div class="session-list-content btn-freerun">
+			<h3>Free-run</h3>
+			<p>
+				Not following the plan? That's no problem!
+			</p>
+		</div>
+		<div class="session-list-log btn-freelog">
+			<i class="icon icon-list"></i> Log
+		</div>
+	</div>
+</div>

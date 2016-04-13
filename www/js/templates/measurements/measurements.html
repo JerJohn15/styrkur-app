@@ -1,0 +1,22 @@
+<div class="view-header">
+	<h1>Measurements</h1>
+
+	<div class="clearfix">
+		<a href="#/measurements/add" class="btn btn-default pull-right"><i class="icon icon-plus"></i> Measure</a>
+		<a href="#/measurements/addpart" class="btn btn-default pull-right"><i class="icon icon-plus"></i> Add part</a> 
+	</div>
+</div>
+
+<!-- If there are no measurements.. -->
+<% if(noData){ %>
+<div class="card">
+	<p>You dont seem to have any measurements registered. Do you want to register one now?</p>
+
+	<div class="clearfix">
+		<a href="#/measurements/add" class="btn btn-primary pull-right"><i class="icon icon-plus"></i> Measure</a>
+	</div>
+</div>
+<%} else {%>
+<div class="measurement-items">
+</div>
+<%}%>

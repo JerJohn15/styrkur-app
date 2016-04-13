@@ -1,0 +1,27 @@
+<div class="view-header">
+	<h2><%= name %></h2>
+	<% if(description) { %>
+	<p class="description">
+		<i class="icon icon-pen"></i>
+		<%= description %>
+	</p>
+	<% } %>
+</div>
+<div class="exercise-list">
+</div>
+
+<div class="card">
+	<label>Comment</label>
+	<textarea name="comment" class="form-control"></textarea>
+
+	<div class="container-padding">
+		<button class="btn btn-primary btn-save">Complete</button>
+		<a class="btn btn-link" href="#/workout/">Close</a>
+	</div>
+</div>
+
+<div class="welldone-box">
+	<i class="icon icon-check"></i>
+	<h1>Good job!</h1>
+	<h2>You lifted <span class="weight-lifted"></span></h2>
+</div>

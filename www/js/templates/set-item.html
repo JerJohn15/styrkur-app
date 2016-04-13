@@ -1,0 +1,33 @@
+<h4>Set <%=index%></h4>
+<div class="form-group type-reps">
+	<label>Reps</label><input type="number" value="" class="form-control input-reps" placeholder="<%= lastReps %>">
+	<button class="btn btn-default add-reps"><i class="icon icon-plus"></i></button>
+	<button class="btn btn-default subtract-reps"><i class="icon icon-minus"></i></button>
+</div>
+<div class="form-group type-weight">
+	<label>Weight (<%= units.weight %>)</label><input type="number" value="" class="form-control input-weight" placeholder="<%= lastWeight %>">
+	<button class="btn btn-default add-weight"><i class="icon icon-plus"></i></button>
+	<button class="btn btn-default subtract-weight"><i class="icon icon-minus"></i></button>
+</div>
+<div class="form-group type-beats">
+	<label>Heartbeats (<%= units.beats %>)</label><input type="number" value="" class="form-control input-beats" placeholder="<%= lastBeat %>">
+</div>
+<div class="form-group type-distance">
+	<label>Distance (<%= units.farLength %>)</label><input type="number" value="" class="form-control input-distance" placeholder="<%= lastDistance %>">
+</div>
+<div class="form-group type-time">
+	<label>Time (<%= units.time %>)</label><input type="number" value="" class="form-control input-time" placeholder="<%= lastTime %>">
+</div>
+<div class="form-group">
+	<% if(pause && pause > 0){ %>
+	<button class="btn btn-default btn-timer pull-right">
+		<i class="icon icon-stopwatch"></i>
+		<span class="timer"></span>
+	</button>
+	<% } %>
+	<button class="btn btn-default btn-comment">Comment</button>
+</div>
+<div class="comment-box-modal">
+	<label>Comment</label>
+	<textarea class="input-comment form-control"></textarea>
+</div>

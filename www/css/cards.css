@@ -1,0 +1,9 @@
+.card {
+    margin: 10px;
+    background: #Fefefe;
+    padding: 5px;
+    border-radius: 2px;
+}
+.card.card-outer {
+    padding: 0;
+}

@@ -1,0 +1,59 @@
+<h3><%= exercise.name %></h3>
+<em><%= exercise.muscle %></em>
+<p>
+	<% switch(exercise.type){
+	case 'weightrep':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<span class="reps"><%= set.reps %></span> x <span class="weight"><%= set.weight %><%= units.weight %></span>
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	case 'reps':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<%= set.reps %> reps
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	case 'weight':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<%= set.weight %> <%= units.weight %>
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	case 'time':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<%= set.time %> <%= units.time %>
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	case 'beats':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<%= set.beats %> <%= units.beats %>
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	case 'distance':
+		_.each(instance.sets, function(set){ %>
+		<span class="set">
+			<%= set.distance %> <%= units.farLength %>
+			<%if(set.comment){%><span class="set-comment"><i class="icon icon-message"></i> <%= set.comment %></span><%}%>
+		</span>
+	<%	});
+		break;
+	} %>
+</p>
+<%if(instance.comment){%>
+<p>
+	<%= instance.comment %>
+</p>
+<%}%>

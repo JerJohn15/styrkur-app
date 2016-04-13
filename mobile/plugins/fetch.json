@@ -1,0 +1,17 @@
+{
+    "com.adobe.plugins.GAPlugin": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phonegap-build/GAPlugin.git",
+            "subdir": "."
+        }
+    },
+    "cordova-plugin-vibration": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-vibration"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

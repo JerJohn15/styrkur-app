@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="10104" id="com.styrkurapp.app" version="1.1.5">
+    <name>Styrkur</name>
+    <description>
+        Styrkur is a workout journal for the gym goer. Styrkur is icelandic for strength.
+    </description>
+    <author email="aevar@eggertsson.org" href="https://eggertsson.org">
+        Ævar Eggertsson
+    </author>
+    <preference name="Orientation" value="portrait" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="webviewbounce" value="false" />
+    <content src="mobile.html" />
+    <access origin="*" />
+</widget>

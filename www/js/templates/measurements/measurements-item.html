@@ -1,0 +1,12 @@
+<h4><%= name %></h4>
+<% if(description){ %>
+<p><i class="icon icon-message"></i><%= description %></p>
+<%}%>
+<% if(noData){ %>
+	<p>You need atleast two measurements</p>
+	<% if(lastOne){ %>
+	<p>Last one was <%= lastOne %> at <%= lastDate %></p>
+	<% } %>
+<%} else {%>
+	<div class="ct-chart"></div>
+<%}%>

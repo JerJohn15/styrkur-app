@@ -1,0 +1,24 @@
+<div class="select-edit-toggle">
+	<label>Exercise</label>
+	<div class="select-edit-list sidebyside">
+		<div>
+			<select class="form-control" name="movementid">
+				<option value="">Select one or make your own</option>
+				<% _.each(movements, function(movement){ %>
+					<option value="<%= movement.get('id') %>"><%= movement.get('name') %></option>
+				<%});%>
+			</select>
+		</div>
+		<div>
+			<button class="btn btn-default movement-select-toggle icon icon-pen"></button>
+		</div>
+	</div>
+	<div class="select-edit-input sidebyside">
+		<div>
+			<input type="text" name="exercise" placeholder="Exercise" class="form-control">
+		</div>
+		<div>
+			<button class="btn btn-default movement-select-toggle icon icon-list"></button>
+		</div>
+	</div>
+</div>

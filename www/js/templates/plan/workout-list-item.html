@@ -1,0 +1,10 @@
+<a class="btn btn-default pull-right" href="#/create/wizard/<%= id %>"><i class="icon icon-pen"></i> Edit</a>
+<h3><%= name %></h3>
+<p class="pre"><%= description %></p>
+<div>
+	<% if(!currentWorkout || currentWorkout !== id){ %>
+		<button class="btn btn-primary btn-use-item">Set as current</button>
+	<% } else { %>
+		This is your current workout plan
+	<% } %>
+</div>
