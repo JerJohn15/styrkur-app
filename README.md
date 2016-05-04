@@ -1,6 +1,6 @@
 # Styrkur
 
-http://www.styrkurapp.com
+https://www.styrkurapp.com
 
 Styrkur is an easy to use, yet powerful tool to track your workout.
 Set up your own workout plan or use one of our predefined.
