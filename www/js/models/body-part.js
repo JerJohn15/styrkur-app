@@ -3,6 +3,7 @@ define('models/body-part',
         'backbone'
     ], 
     function(Backbone){
+    'use strict';
 
     return Backbone.Model.extend({
 
@@ -20,12 +21,3 @@ define('models/body-part',
     });
 
 });
-/*
-Weight:
-Thighs:
-Body Fat Forearms
-Chest Calves
-Arms Shoulders
-Hips Neck
-Waist Height
-*/

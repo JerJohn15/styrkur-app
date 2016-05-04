@@ -5,6 +5,7 @@ define('views/freerun/freerun-item',
         'templates/freerun/freerun-item.html'
     ],
     function(BaseView, SetCollection, Template){
+    'use strict';
 
     var view = BaseView.extend({
 
@@ -22,7 +23,7 @@ define('views/freerun/freerun-item',
 
         renderMovements: function (muscleid){
             var _this = this,
-                movements = _this.options.parent.movements.filter(function(mov){ return mov.get('muscle') === muscleid }),
+                movements = _this.options.parent.movements.filter(function(mov){ return mov.get('muscle') === muscleid; }),
                 html = [];
 
             _.each(movements, function(movement){

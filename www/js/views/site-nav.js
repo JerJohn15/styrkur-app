@@ -1,8 +1,8 @@
 define('site-nav',
-	[
-	    'base/base-view',
-	    'templates/site-nav.html'
-	], function (BaseView, Template) {
+    [
+        'base/base-view',
+        'templates/site-nav.html'
+    ], function (BaseView, Template) {
     'use strict';
     
     var view = BaseView.extend({
@@ -23,11 +23,11 @@ define('site-nav',
         },
 
         events: {
-        	'click li': 'navigate'
+            'click li': 'navigate'
         },
 
         'navigate': function(e){
-        	e.preventDefault();
+            e.preventDefault();
         }
         
     });

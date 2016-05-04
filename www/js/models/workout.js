@@ -4,6 +4,7 @@ define('models/workout',
         'collections/sessions'
     ], 
     function(Backbone, SesCollection){
+    'use strict';
 
     var model = Backbone.Model.extend({
 
@@ -15,7 +16,9 @@ define('models/workout',
         },
 
         initialize: function(attr, options){
-            (attr && attr.session) ? this.set('sessions', new SesCollection(attr.sessions)) : false;
+            if(attr && attr.session){
+                this.set('sessions', new SesCollection(attr.sessions));
+            }
             return model.__super__.initialize.apply(this, arguments);
         },
 

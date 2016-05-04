@@ -4,7 +4,8 @@ define('views/create/movement',
         'templates/create/movement.html'
     ],
     function(BaseView, Template){
-
+    'use strict';
+    
     var view = BaseView.extend({
 
         initialize: function (cfg) {

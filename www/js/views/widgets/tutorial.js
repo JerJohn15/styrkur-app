@@ -4,7 +4,8 @@ define('views/widgets/tutorial',
         'templates/widgets/tutorial.html'
     ], 
     function (BaseView, Template) {
-    
+    'use strict';
+
     var view = BaseView.extend({
 
         Template: Template,
@@ -14,4 +15,4 @@ define('views/widgets/tutorial',
     });
 
     return view;
-})
+});

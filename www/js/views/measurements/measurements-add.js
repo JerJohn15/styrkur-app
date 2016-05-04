@@ -59,7 +59,7 @@ define('views/measurements/measurements-add',
             }
             else{
                 model = new Model({
-                    date: (new Date).getTime(),
+                    date: (new Date()).getTime(),
                     comment: comment,
                     items: values
                 });

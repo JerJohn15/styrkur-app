@@ -7,7 +7,8 @@ define('views/create/session',
         ,'backbone.stickit'
     ],
     function(ParentView, SessionItemView, Collection, Template, stickit){
-    
+    'use strict';
+
     var View = ParentView.extend({
     
         Template: Template,
@@ -58,13 +59,14 @@ define('views/create/session',
             if(e){
                 e.preventDefault();
             }
+            var dropdown;
             if(dropdownEl){
                 dropdown = dropdownEl;
             }
             else {            
                 var _this = this,
-                    target = _this.$(e.currentTarget),
-                    dropdown = target.siblings('.dropdown-menu');
+                    target = _this.$(e.currentTarget);
+                dropdown = target.siblings('.dropdown-menu');
             }
 
             dropdown.toggle();
@@ -99,15 +101,15 @@ define('views/create/session',
         },
 
         'save': function(e){
-            if(e)
+            if(e){
                 e.preventDefault();
-
+            }
             var _this = this;
 
             _this.model.model.sync('update', _this.model.model, {
                 success: function(){
                     App.toast('success', 'Workout plan saved');
-                    if(App.Workout && (App.Workout.get('id') == _this.model.model.get('id'))){
+                    if(App.Workout && (App.Workout.get('id') === _this.model.model.get('id'))){
                         App.Workout = _this.model.model;
                     }
                 },

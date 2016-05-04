@@ -5,7 +5,8 @@ define('views/session-list-item',
         'collections/session-instances'
     ],
     function(BaseView, Template, SessionInstances){
-
+    'use strict';
+    
     var View = BaseView.extend({
 
         initialize: function(){

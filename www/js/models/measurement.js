@@ -3,7 +3,8 @@ define('models/measurement',
         'backbone'
     ], 
     function(Backbone){
-
+    'use strict';
+    
     return Backbone.Model.extend({
 
         defaults: {

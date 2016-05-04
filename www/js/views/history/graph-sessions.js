@@ -7,8 +7,9 @@ define('views/history/graph-sessions',
         'collections/session-instances'
     ],
     function(Backbone, BaseView, Template, ItemView){
+    'use strict';
 
-    var _createNewCollection = function(coll){
+    var _createNewCollection = function(){
             var _this = this,
                 coll = _this.collection,
                 newObj = {},
@@ -18,7 +19,8 @@ define('views/history/graph-sessions',
                 var date = instance.get('date');
                 instance.get('exercises').each(function(exercise){
                     var exid = exercise.get('exercise'),
-                        exInfo
+                        exInfo;
+                        
                     if(!newObj['_' + exid]){
                         exInfo = _this.model.get('exercises').findWhere({ id: exid });
                         newObj['_' + exid] = {

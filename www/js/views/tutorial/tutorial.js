@@ -22,7 +22,7 @@ define('views/tutorial/tutorial',
             return _this;
         },
 
-    	className: 'tutorial-view',
+        className: 'tutorial-view',
     
         Template: Template,
 

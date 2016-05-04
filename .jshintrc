@@ -1,0 +1,15 @@
+{
+    "laxcomma": true,
+    "curly": true,
+    "eqeqeq": true,
+    "eqnull": true,
+    "browser": true,
+    "globalstrict": false,
+    "globals": {
+        "jQuery": true,
+        "define": true,
+        "require": true,
+        "App": true,
+        "console": true
+    }
+}

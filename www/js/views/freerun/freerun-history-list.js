@@ -5,7 +5,8 @@ define('views/freerun/freerun-history-list',
         'views/freerun/freerun-history-item'
     ],
     function(BaseView, Template, ItemView){
-
+    'use strict';
+    
     var View = BaseView.extend({
     
         Template: Template,

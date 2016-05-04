@@ -8,6 +8,7 @@ define('views/create/session-item',
         ,'backbone.stickit'
     ],
     function(BaseView, Model, ExercisesColl, ExercisesView, Template){
+    'use strict';
 
     var View = BaseView.extend({
     
@@ -18,7 +19,7 @@ define('views/create/session-item',
         render: function() {
             var _this = this;
 
-            if(_this.options && _this.options.parent && _this.options.parent.showDisabled == false){
+            if(_this.options && _this.options.parent && _this.options.parent.showDisabled === false){
                 if(_this.model.get('enabled') === false){
                     _this.el.className = '';
                     return _this;

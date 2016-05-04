@@ -4,6 +4,7 @@ define('views/plan/server-item',
         'templates/plan/server-item.html'
     ],
     function(BaseView, Template){
+    'use strict';
 
     var View = BaseView.extend({
     
@@ -13,11 +14,6 @@ define('views/plan/server-item',
 
         className: 'workout-item card',
 
-        render: function(){
-
-            return View.__super__.render.apply(this, arguments)
-        },
-
         events: {
             'click .get-item': 'getItem'
         },
@@ -25,10 +21,10 @@ define('views/plan/server-item',
         'getItem': function(e){
             e.preventDefault();
             var data,
-                modeldef,
+                Modeldef,
                 onDone = function(){
-                    if(data && modeldef){
-                        var model = new modeldef(data);
+                    if(data && Modeldef){
+                        var model = new Modeldef(data);
                         model.sync('create', model, {
                             success: function(){
                                 App.toast('success', 'Successfully added workout.');
@@ -38,18 +34,17 @@ define('views/plan/server-item',
                             }
                         });
                     }
-                }
+                };
 
             $.get( window.apiurl + '/get/' + this.model.get('id'),
                 function(mdl){
-                    console.log('jqGet');
                     data = mdl;
                     onDone();
                 });
 
             require(['models/workout'], function(Model){
                 console.log('Model');
-                modeldef = Model;
+                Modeldef = Model;
                 onDone();
             });
         }

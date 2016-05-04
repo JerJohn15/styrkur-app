@@ -79,6 +79,19 @@ module.exports = function(grunt) {
                 }
             }
         },
+        jshint: {
+            options: {
+                laxcomma: true,
+                curly: true,
+                eqeqeq: true,
+                eqnull: true,
+                browser: true,
+                globals: {
+                    jQuery: true
+                },
+            },
+            all: ['www/js/**/*.js', '!www/js/templates/**/*']
+        },
         requirejs: {
           compile: {
             options: buildOptions

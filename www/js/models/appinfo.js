@@ -3,7 +3,8 @@ define('models/appinfo',
         'backbone'
     ], 
     function(Backbone){
-
+    'use strict';
+    
     return Backbone.Model.extend({
 
         defaults: {
@@ -12,7 +13,9 @@ define('models/appinfo',
         },
 
         initialize: function(attr, options){
-            attr.id || this.set('id', '0');
+            if(!attr.id){
+                this.set('id', '0');
+            }
         },
 
         store: new WebSQLStore(db, 'appinfo')

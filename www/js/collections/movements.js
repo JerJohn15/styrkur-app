@@ -4,7 +4,8 @@ define('collections/movements',
         'models/movement'
     ], 
     function(Backbone, Model){
-        
+    'use strict';
+    
     return  Backbone.Collection.extend({
         
         model: Model,

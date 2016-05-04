@@ -4,6 +4,7 @@ define('models/exercise-instance',
         'collections/set-instances'
     ], 
     function(Backbone, Sets){
+    'use strict';
 
     var Model = Backbone.Model.extend({
 
@@ -15,7 +16,7 @@ define('models/exercise-instance',
         },
 
         initialize: function(attr, options){
-            this.set('date', new Date);
+            this.set('date', new Date());
             this.set('sets', new Sets((attr && attr.sets) ? attr.sets: undefined));
 
             return Model.__super__.initialize.apply(this, arguments);

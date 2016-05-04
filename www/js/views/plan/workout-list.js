@@ -6,6 +6,7 @@ define('views/plan/workout-list',
         'templates/plan/workout-list.html'
     ],
     function(ParentView, ItemView, Collection, Template){
+    'use strict';
     
     var View = ParentView.extend({
 

@@ -4,7 +4,8 @@ define('collections/set-instances',
         'models/set-instance'
     ], 
     function(Backbone, Model){
-        
+    'use strict';
+    
     return  Backbone.Collection.extend({
 
         model: Model

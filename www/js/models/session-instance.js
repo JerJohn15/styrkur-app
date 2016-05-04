@@ -4,6 +4,7 @@ define('models/session-instance',
         'collections/exercise-instances'
     ], 
     function(Backbone, Exercises){
+    'use strict';
 
     var Model = Backbone.Model.extend({
 
@@ -17,7 +18,9 @@ define('models/session-instance',
 
         initialize: function(attr, options){
             //Only set date if it does not exist..
-            attr.date || this.set('date', (new Date()).getTime());
+            if(!attr.date){
+                this.set('date', (new Date()).getTime());
+            }
             this.set('exercises', new Exercises(attr.exercises));
 
             return Model.__super__.initialize.apply(this, arguments);

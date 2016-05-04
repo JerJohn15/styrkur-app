@@ -6,7 +6,8 @@ define('views/freerun/history-session-item',
         ,'moment'
     ],
     function(BaseView, Template){
-
+    'use strict';
+    
     var View = BaseView.extend({
 
         initialize: function(opt){

@@ -1,11 +1,12 @@
 define('plugins/setup', 
-	[
-		'jquery',
-		'underscore'
-	], 
-	function($, _){
-	
-	var _versionNewerThan = function(ver, against){
+    [
+        'jquery',
+        'underscore'
+    ], 
+    function($, _){
+    'use strict';
+    
+    var _versionNewerThan = function(ver, against){
             var _this = this,
                 versionSplit = against.split('.'),
                 checkVerSplit = ver.split('.'),
@@ -40,8 +41,9 @@ define('plugins/setup',
         },
 
         _createWorkout = function(cfg){
-            if(!cfg || ! cfg.workout)
+            if(!cfg || ! cfg.workout){
                 return false;
+            }
 
             var deferred = new $.Deferred();
 
@@ -50,8 +52,9 @@ define('plugins/setup',
                 model.sync('create', model, {
                     success: function(){
                         App.User.set('workout', model.get('id'));
-                        if(!cfg.silent)
+                        if(!cfg.silent){
                             App.toast('success', 'Successfully added workout.');
+                        }
                         _getDefaultWorkout(deferred);
                     },
                     error: function(){
@@ -74,7 +77,7 @@ define('plugins/setup',
                 var count = 0,
                     length = BodyParts.length,
                     onComplete = function(){
-                        if(++count == length){
+                        if(++count === length){
                             deferred.resolve();
                         }
                     };
@@ -85,7 +88,7 @@ define('plugins/setup',
                     model.sync('create', model, {
                         success: onComplete,
                         error: function(){
-                            console.log('Failed to add bodypart to sql')
+                            console.log('Failed to add bodypart to sql');
                         }
                     });
 
@@ -104,7 +107,7 @@ define('plugins/setup',
                         App.Workout = model;
                         deferred.resolve();
                     }
-                })
+                });
             });
 
             return deferred.promise();
@@ -130,7 +133,7 @@ define('plugins/setup',
                         };
 
                         require(['views/tutorial/tutorial'],function(TutorialView){
-                            var view = new TutorialView;
+                            var view = new TutorialView();
                             view.model = user;
 
                             view.options.onComplete = onTutorialComplete;
@@ -142,7 +145,7 @@ define('plugins/setup',
                 deferred = new $.Deferred();
 
             require(['collections/users'], function (Collection) {
-                var collection = new Collection;
+                var collection = new Collection();
                 collection.fetch({
                     limit: 1,
                     success: setUser
@@ -197,7 +200,7 @@ define('plugins/setup',
 
                                 _doUpdates(version, updDeferred);
                             }
-                        })
+                        });
                     });
                 };
 
@@ -224,6 +227,6 @@ define('plugins/setup',
             return deferred;
         },
 
-    }
+    };
 
 });

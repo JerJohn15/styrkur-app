@@ -28,7 +28,8 @@ define('views/history/exercises',
                 _this.options = {
                     session: _this.session.toJSON(),
                     formatedDate : moment(_this.model.get('date') ).format( App.enums.units.dateTime() )
-                }
+                };
+
                 View.__super__.render.apply(_this, arguments);
 
                 _this.addExercises(sessionId, instanceId);
@@ -41,12 +42,13 @@ define('views/history/exercises',
                     els = [];
 
                 _this.session.get('exercises').each(function(exercise){
-                    var view = new ItemView,
+                    var view = new ItemView(),
                         exId = exercise.get('id'),
                         instance = _.find(_this.model.get('exercises'), function(it){ return it.exercise === exId; });
 
-                    if(!instance)
+                    if(!instance){
                         return;
+                    }
 
                     view.model = {
                         exercise : exercise.toJSON(),

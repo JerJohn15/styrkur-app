@@ -6,13 +6,13 @@ define('views/timer',
     function(BaseView, Template, moment){
 
     var _diffTime = function(timer){
-            var seconds = ((new Date).getTime() - timer.getTime()) / 1000,
+            var seconds = ((new Date()).getTime() - timer.getTime()) / 1000,
                 minutes = parseInt(seconds / 60);
             seconds = parseInt(seconds % 60);
             if(seconds < 10){
                 seconds = '0' + seconds;
             }
-            return (minutes ? minutes + ':' : '0:') + seconds
+            return (minutes ? minutes + ':' : '0:') + seconds;
         },
 
         started = false,
@@ -32,13 +32,13 @@ define('views/timer',
                 e.preventDefault();
                 var _this = this,
                     _updateTime = function(){
-                        _this.$('h1').text( _diffTime(_this.timer) )
+                        _this.$('h1').text( _diffTime(_this.timer) );
                     };
 
                 e.target.innerText = started ? 'Start' : 'Split';
 
                 if(!_this.timer){
-                    _this.timer = new Date;
+                    _this.timer = new Date();
                 }
 
                 if(!started){
@@ -50,7 +50,7 @@ define('views/timer',
                 else {
                     _this.$('.spinner').addClass('paused').removeClass('stopped');
                     started = false;
-                    clearInterval(_this.interval)
+                    clearInterval(_this.interval);
                 }
             },
 
@@ -58,7 +58,9 @@ define('views/timer',
                 var _this = this;
                 e.preventDefault();
 
-                _this.interval ? clearInterval(_this.interval) : false;
+                if(_this.interval){
+                    clearInterval(_this.interval);
+                }
                 _this.timer = undefined;
                 started = false;
 

@@ -5,6 +5,7 @@ define('views/history/exercises-item',
         'collections/set-instances'
     ],
     function(BaseView, Template, Sets){
+    'use strict';
 
     var View = BaseView.extend({
 
@@ -13,7 +14,7 @@ define('views/history/exercises-item',
 
             this.options = {
                 units: App.enums.units.getAll()
-            }
+            };
 
             View.__super__.render.apply(_this, arguments);
 

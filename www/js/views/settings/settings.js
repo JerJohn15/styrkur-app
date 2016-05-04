@@ -27,7 +27,7 @@ define('views/settings/settings',
         className: 'settings-view',
 
         events: {
-        	'click .btn-save': 'save'
+            'click .btn-save': 'save'
         },
 
         bindings: {
@@ -48,14 +48,14 @@ define('views/settings/settings',
 
         //User is saved automaticly..
         'save': function(e){
-        	e.preventDefault();
+            e.preventDefault();
             var _this = this,
                 onSuccess = function () {
                     App.toast('success', 'User updated');
                 },
                 onFail = function () {
                     App.toast('warning', 'Could not update user');
-                }
+                };
 
             if(_this.model.get('gender') === '' || _this.model.get('age') === '' || _this.model.get('units') === '' || _this.model.get('goalType') === ''){
                 App.toast('info', 'Please fill in all required fields');

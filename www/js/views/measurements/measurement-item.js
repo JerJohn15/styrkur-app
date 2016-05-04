@@ -6,7 +6,7 @@ define('views/measurements/measurement-item',
         ,'moment'
     ],
     function(BaseView, Template, Chartist){
-
+    'use strict';
 
         var view = BaseView.extend({
 
@@ -47,9 +47,11 @@ define('views/measurements/measurement-item',
                             series: [_.pluck(_this.model.get('items'),'value')]
                         };
                         
-                        if(!_this.$('.ct-chart').length) return _this;
+                        if(!_this.$('.ct-chart').length){
+                            return _this;
+                        }
 
-                        svg = _this.$('.ct-chart')[0]
+                        svg = _this.$('.ct-chart')[0];
 
                         _this.chart = new Chartist.Line(svg, data, {
                             fullWidth: true,
@@ -70,8 +72,10 @@ define('views/measurements/measurement-item',
 
                 Close: function(){
                     var _this = this;
-                    _this.chart ? _this.chart.detach() : false;
-                    delete _this.chart;
+                    if(_this.chart){
+                        _this.chart.detach();
+                        delete _this.chart;
+                    }
                     view.__super__.Close.apply(_this, arguments);
                 }
 

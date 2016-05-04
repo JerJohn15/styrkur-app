@@ -14,12 +14,12 @@ define('views/workout',
         render: function(){
             var _this = this,
                 workoutId = _this.model.get('id'),
-                sessionView = new SessionsView;
+                sessionView = new SessionsView();
 
             sessionView.workoutId = workoutId;
             //Filter out to enabled sessions
             sessionView.collection = new Backbone.Collection(_this.model.get('sessions').filter(function(item){
-                    return item.get('enabled') == undefined || item.get('enabled');
+                    return item.get('enabled') === undefined || item.get('enabled');
                 }));
 
             View.__super__.render.apply(_this, arguments);

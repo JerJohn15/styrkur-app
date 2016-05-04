@@ -4,7 +4,8 @@ define('collections/exercise-instances',
         'models/exercise-instance'
     ], 
     function(Backbone, Model){
-        
+    'use strict';
+    
     return  Backbone.Collection.extend({
         
         model: Model,

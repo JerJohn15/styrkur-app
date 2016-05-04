@@ -4,6 +4,7 @@ define('models/session',
         'collections/exercises'
     ], 
     function(Backbone, ExCollection){
+    'use strict';
 
     var Model = Backbone.Model.extend({
 
@@ -19,7 +20,9 @@ define('models/session',
 
         initialize: function(attr, options){
             this.set('exercises', new ExCollection(attr.exercises));
-            attr.id || this.set('id', App.uuid());
+            if(!attr.id){
+                this.set('id', App.uuid());
+            }
         },
 
         parse: function(attr, options){

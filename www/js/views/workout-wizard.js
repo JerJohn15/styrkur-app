@@ -16,11 +16,11 @@ define('views/workout-wizard',
             
             View.__super__.render.apply(_this, arguments);
 
-            _this.switchView('sessions', {})
+            _this.switchView('sessions', {});
 
             App.Events.on('workout-wizard:view', function(view, options){
                 _this.switchView(view, options);
-            })
+            });
             
             return _this;
         },
@@ -29,13 +29,12 @@ define('views/workout-wizard',
             var view;
             switch(req){
                 case 'exercises':
-                    view = new ExercisesView;
+                    view = new ExercisesView();
                     view.model = options.model;
                     view.parentModel = this.model;
                     break;
-                case 'sessions':
                 default:
-                    view = new SessionView;
+                    view = new SessionView();
                     view.model = this.model;
                     break;
             }

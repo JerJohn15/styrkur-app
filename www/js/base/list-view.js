@@ -1,4 +1,4 @@
-define(
+define('base/list-view',
     [
         'base/base-view'
     ],
@@ -27,7 +27,7 @@ define(
 
         addChild: function(model){
             var _this = this,
-                itemView = new _this.ItemView;
+                itemView = new _this.ItemView();
 
             itemView.model = model;
 
@@ -50,7 +50,7 @@ define(
             var _this = this;
 
             _this.collection.each(function(item){
-                var itemView = new _this.ItemView;
+                var itemView = new _this.ItemView();
                 itemView.model = item;
 
                 if(_this.options){

@@ -5,7 +5,8 @@ define('views/create/workout',
         'templates/create/workout.html'
     ],
     function(BaseView, Model, Template){
-    
+    'use strict';
+
     var View = BaseView.extend({
     
         Template: Template,
@@ -35,7 +36,7 @@ define('views/create/workout',
                     console.log('failed creating');
                     App.toast('info', 'Whoops something went wrong');
                 }
-            })
+            });
         },
         
         Close: function(){

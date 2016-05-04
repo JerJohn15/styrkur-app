@@ -6,7 +6,8 @@ define('views/history/session-list-item',
         ,'moment'
     ],
     function(BaseView, Template){
-
+    'use strict';
+    
     var View = BaseView.extend({
 
         render: function(){

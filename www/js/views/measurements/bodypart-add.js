@@ -5,7 +5,7 @@ define('views/measurements/bodypart-add',
         'models/body-part'
     ],
     function(BaseView, Template, Model){
-
+    'use strict';
 
         var view = BaseView.extend({
 

@@ -4,7 +4,8 @@ define('collections/session-instances',
         'models/session-instance'
     ], 
     function(Backbone, Model){
-        
+    'use strict';
+    
     return Backbone.Collection.extend({
         
         model: Model,

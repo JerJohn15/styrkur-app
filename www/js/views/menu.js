@@ -1,10 +1,10 @@
 ﻿define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'base/base-view',
-    'templates/menu.html'
-], function ($, _, Backbone, BaseView, template) {
+        'jquery',
+        'underscore',
+        'backbone',
+        'base/base-view',
+        'templates/menu.html'
+    ], function ($, _, Backbone, BaseView, template) {
     'use strict';
     
     var view = BaseView.extend({

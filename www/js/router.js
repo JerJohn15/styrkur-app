@@ -1,4 +1,5 @@
 define(['backbone'], function(Backbone){
+    'use strict';
 
     return Backbone.Router.extend({
         routes: {
@@ -70,7 +71,7 @@ define(['backbone'], function(Backbone){
             App.toggleLoader(true);
 
             require(['views/plan/server-list','collections/serveritems'], function (View, Collection) {
-                var view = new View,
+                var view = new View(),
                     collection = new Collection();
                 view.collection = collection;
                 
@@ -85,7 +86,7 @@ define(['backbone'], function(Backbone){
 
         'workout': function(){
             require(['views/workout'], function (View) {
-                var view = new View,
+                var view = new View(),
                     currentPlan = App.User.get('workout'),
                     noPlan = function(){
                         console.log('User has no plan!');
@@ -104,7 +105,7 @@ define(['backbone'], function(Backbone){
 
         'do-workout': function(id){
             require(['views/exercises'], function(View){
-                var view = new View;
+                var view = new View();
                 view.model = App.Workout.get('sessions').findWhere({id: id});
                 view.parentModel = App.Workout;
 
@@ -123,10 +124,8 @@ define(['backbone'], function(Backbone){
                     'collections/muscles'
                 ], function(View, Model, MoveColl, MuscColl){
 
-            
-                var view = new View,
-                    movements = new MoveColl,
-                    muscles = new MuscColl,
+                var movements = new MoveColl(),
+                    muscles = new MuscColl(),
                     view = new View({
                         muscles: muscles,
                         movements: movements
@@ -159,9 +158,9 @@ define(['backbone'], function(Backbone){
             require([
                     'views/freerun/freerun-history-list',
                     'collections/session-instances'
-                ], function (View, Collection, Model) {
-                var view = new View,
-                    collection = view.collection = new Collection;
+                ], function (View, Collection) {
+                var view = new View(),
+                    collection = view.collection = new Collection();
 
                 collection.fetch({
                     filters: { parent: '11111111-1111-1111-1111-111111111111' },
@@ -169,7 +168,7 @@ define(['backbone'], function(Backbone){
                         App.showView(view);
                     },
                     error: function(){
-                        App.toast('info', 'Could not get history')
+                        App.toast('info', 'Could not get history');
                     }
                 });
 
@@ -184,8 +183,8 @@ define(['backbone'], function(Backbone){
                     'collections/muscles'
                 ], function(View, Model, MoveColl, MuscColl){
                     
-                var movements = new MoveColl,
-                    muscles = new MuscColl,
+                var movements = new MoveColl(),
+                    muscles = new MuscColl(),
                     model = new Model({ id: id }),
                     view = new View({
                         muscles: muscles,
@@ -227,7 +226,7 @@ define(['backbone'], function(Backbone){
         'settings': function () {
             App.Events.trigger('navigate:done', 'settings');
             require(['views/settings/settings'], function (View) {
-                var view = new View;
+                var view = new View();
                 view.model = App.User;
                 App.showView(view);
             });
@@ -236,7 +235,7 @@ define(['backbone'], function(Backbone){
         //Is this in use??
         'session': function(id){
             require(['views/session','models/session'], function (View, Model) {
-                var view = new View,
+                var view = new View(),
                     model = new Model({ id: id });
                 view.model = model;
 
@@ -252,11 +251,10 @@ define(['backbone'], function(Backbone){
         'history-graph': function(id){
             require([
                     'views/history/graph-sessions',
-                    'collections/session-instances', 
-                    'models/workout'
-                ], function (View, Collection, Model) {
-                var view = new View,
-                    collection = new Collection,
+                    'collections/session-instances'
+                ], function (View, Collection) {
+                var view = new View(),
+                    collection = new Collection(),
                     onFetch = function(){
                         collection.fetch({
                             filters: { parent: id },
@@ -284,11 +282,10 @@ define(['backbone'], function(Backbone){
         'history-sessions': function(id){
             require([
                     'views/history/session-list',
-                    'collections/session-instances', 
-                    'models/workout'
-                ], function (View, Collection, Model) {
-                var view = new View,
-                    collection = new Collection,
+                    'collections/session-instances'
+                ], function (View, Collection) {
+                var view = new View(),
+                    collection = new Collection(),
                     onError = function(){
                         App.toast('error', 'Failed loading workout sessions');
                         console.log(arguments);
@@ -316,7 +313,7 @@ define(['backbone'], function(Backbone){
                     'views/history/exercises',
                     'models/session-instance'
                 ], function (View, Model) {
-                var view = new View,
+                var view = new View(),
                     session = App.Workout.get('sessions').findWhere({ id: sessionId }),
                     model = new Model({ id: id });
 
@@ -341,9 +338,9 @@ define(['backbone'], function(Backbone){
 
         'create-wizard': function(id){
             require(['views/create/session', 'models/workout', 'collections/movements', 'collections/muscles'], function (View, Model, MoveColl, MuscColl) {
-                var view = new View,
-                    movements = new MoveColl,
-                    muscles = new MuscColl,
+                var view = new View(),
+                    movements = new MoveColl(),
+                    muscles = new MuscColl(),
                     fetchCount = 0,
                     onDone = function () {
                         fetchCount++;
@@ -379,8 +376,8 @@ define(['backbone'], function(Backbone){
         'create-exercise': function(id, exid){
             require(['views/create/exercises', 'models/workout', 'collections/movements', 'collections/muscles'], function (View, Model, MoveColl, MuscColl) {
                 var view = new View({ exerciseid: exid }),
-                    movements = new MoveColl,
-                    muscles = new MuscColl,
+                    movements = new MoveColl(),
+                    muscles = new MuscColl(),
                     fetchCount = 0,
                     onDone = function () {
                         fetchCount++;
@@ -418,7 +415,7 @@ define(['backbone'], function(Backbone){
         'measurements': function(){
             App.Events.trigger('navigate:done', 'measurements');
             require(['views/measurements/measurements'], function(View){
-                var view = new View;
+                var view = new View();
 
                 App.showView(view);
                 
@@ -429,8 +426,8 @@ define(['backbone'], function(Backbone){
             require(
                 ['views/measurements/measurements-add','collections/body-parts'], 
                 function(View, BodyParts){
-                    var view = new View;
-                    view.collection = new BodyParts;
+                    var view = new View();
+                    view.collection = new BodyParts();
 
                     view.collection.fetch({
                         success: function(){
@@ -444,15 +441,11 @@ define(['backbone'], function(Backbone){
 
         'measurements-addpart': function(){
             require(['views/measurements/bodypart-add'], function(View){
-                var view = new View;
+                var view = new View();
                 App.showView(view);
             });
-        },
-
-        //Test function
-        'reportBack': function (info) {
-            console.log(info)
         }
+
     });
 
 });

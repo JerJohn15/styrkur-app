@@ -1,14 +1,15 @@
 define('plugins/movements', 
-	[
-		'jquery',
-		'underscore',
+    [
+        'jquery',
+        'underscore',
         'collections/muscles', 
         'collections/movements', 
         'workoutplans/exercises'
-	], 
-	function($, _, MuscColl, MoveColl, Exercises){
-	
-	var _loadData = function(){
+    ], 
+    function($, _, MuscColl, MoveColl, Exercises){
+    'use strict';
+
+    var _loadData = function(){
 
             var deferred = new $.Deferred();
 
@@ -18,14 +19,14 @@ define('plugins/movements',
                 var muscleid = value.id;
                 muscles.push({id: muscleid, name: key });
                 _.each(value.exercises, function(value, i){
-                    movements.push({ id: value.id, name: value.name, muscle: muscleid })
+                    movements.push({ id: value.id, name: value.name, muscle: muscleid });
                 });
             });
             
             //First muscles
-            _registerCollection(muscles, new MuscColl, function(){
+            _registerCollection(muscles, new MuscColl(), function(){
                 //Second is movements
-                _registerCollection(movements, new MoveColl, function(){
+                _registerCollection(movements, new MoveColl(), function(){
                     deferred.resolve();
                 });
             });

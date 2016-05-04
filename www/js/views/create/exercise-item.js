@@ -7,6 +7,7 @@ define('views/create/exercise-item',
         ,'backbone.stickit'
     ],
     function(BaseView, Model, Template, MovementsView){
+    'use strict';
 
     var view = BaseView.extend({
     
@@ -19,7 +20,7 @@ define('views/create/exercise-item',
         render: function() {
             var _this = this;
 
-            if(_this.options && _this.options.parent && _this.options.parent.showDisabled == false){
+            if(_this.options && _this.options.parent && _this.options.parent.showDisabled === false){
                 if(_this.model.get('enabled') === false){
                     _this.el.className = '';
                     return _this;
@@ -41,7 +42,7 @@ define('views/create/exercise-item',
 
         renderMovements: function (muscleid){
             var _this = this,
-                movements = _this.options.parent.movements.filter(function(mov){ return mov.get('muscle') === muscleid }),
+                movements = _this.options.parent.movements.filter(function(mov){ return mov.get('muscle') === muscleid; }),
                 movementview = new MovementsView({ muscleid: muscleid, movements: movements });
 
             if(_this.movementview){

@@ -4,7 +4,8 @@ define('views/license',
         'templates/license.html'
     ],
     function(BaseView, Template){
-
+    'use strict';
+    
     var view = BaseView.extend({
 
     	className: 'license-view',

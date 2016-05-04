@@ -5,7 +5,8 @@ define('views/set-item',
         ,'backbone.stickit'
     ],
     function(BaseView, Template, SessionInstances){
-
+    'use strict';
+    
     var View = BaseView.extend({
     
         Template: Template,
@@ -17,7 +18,7 @@ define('views/set-item',
         initialize: function(){
             this.options = {
                 index : "unknown"
-            }
+            };
         },
 
         render: function(){
@@ -44,8 +45,8 @@ define('views/set-item',
         },
 
         bindings: {
-        	'.input-reps': 'reps',
-        	'.input-weight': 'weight',
+            '.input-reps': 'reps',
+            '.input-weight': 'weight',
             '.input-beats': 'beats',
             '.input-distance': 'distance',
             '.input-time': 'time',
@@ -79,9 +80,9 @@ define('views/set-item',
             var _this = this,
                 reps = this.model.get('reps'),
                 addOne = function(){
-                    if(reps == 0)
+                    if(reps === 0){
                         return;
-
+                    }
                     _this.model.set('reps', (reps !== undefined) ? --reps : 0 );
                     _this.addTimer = setTimeout(addOne, 500);
                 };
@@ -105,9 +106,9 @@ define('views/set-item',
             var _this = this,
                 weight = this.model.get('weight'),
                 addOne = function(){
-                    if(weight == 0)
+                    if(weight === 0){
                         return;
-
+                    }
                     _this.model.set('weight', (weight !== undefined) ? --weight : 0 );
                     _this.addTimer = setTimeout(addOne, 500);
                 };
@@ -163,7 +164,7 @@ define('views/set-item',
                 }, 1000);
 
                 $span.text(time);
-            }
+            };
 
         }())
     

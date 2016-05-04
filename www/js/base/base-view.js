@@ -1,4 +1,8 @@
-define(['jquery', 'backbone'], 
+define('base/base-view',
+    [
+        'jquery', 
+        'backbone'
+    ], 
     function($, Backbone){
     'use strict';
     

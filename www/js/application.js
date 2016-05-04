@@ -25,7 +25,7 @@ define('application',[
 
             if (!selectedArea) {
                 console.log('Area not defined!');
-                return
+                return;
             }
 
             if (selectedArea.view) {
@@ -37,7 +37,7 @@ define('application',[
 
         },
         _closeView = function(area, callback){
-            var selectedArea = App.regions['main']; //area || 
+            var selectedArea = App.regions.main; 
             
             if (selectedArea.view) {
                 var oldView = selectedArea.view;
@@ -46,7 +46,9 @@ define('application',[
                 oldView.$el.addClass('slide-back');
                 oldView.$el.one('animationend webkitAnimationEnd oAnimationEnd', function(){
                     oldView.Close();
-                    callback ? callback() : false;
+                    if(callback){
+                        callback();
+                    }
                 });
             }
         },
@@ -60,7 +62,7 @@ define('application',[
                     currentColor = color;
                     $(document.body).addClass('color-' + color);
                 }
-            }
+            };
         }()),
         _showNavMenu = function(){
             require(['components/menu'], function (Menu) {
@@ -100,7 +102,7 @@ define('application',[
                         };
 
                         require(['views/tutorial/tutorial'],function(TutorialView){
-                            var view = new TutorialView;
+                            var view = new TutorialView();
                             view.model = _this.User;
 
                             view.options.onComplete = onTutorialComplete;
@@ -113,7 +115,7 @@ define('application',[
                 deferred = new $.Deferred();
 
             require(['collections/users'], function (Collection) {
-                var collection = new Collection;
+                var collection = new Collection();
                 collection.fetch({
                     limit: 1,
                     success: setUser
@@ -123,8 +125,9 @@ define('application',[
             return deferred.promise();
         },
         _createWorkout = function(cfg){
-            if(!cfg || ! cfg.workout)
+            if(!cfg || ! cfg.workout){
                 return false;
+            }
 
             var deferred = new $.Deferred();
 
@@ -133,8 +136,9 @@ define('application',[
                 model.sync('create', model, {
                     success: function(){
                         App.User.set('workout', model.get('id'));
-                        if(!cfg.silent)
+                        if(!cfg.silent){
                             App.toast('success', 'Successfully added workout.');
+                        }
                         _getDefaultWorkout(deferred);
                     },
                     error: function(){
@@ -157,7 +161,7 @@ define('application',[
                 var count = 0,
                     length = BodyParts.length,
                     onComplete = function(){
-                        if(++count == length){
+                        if(++count === length){
                             deferred.resolve();
                         }
                     };
@@ -168,7 +172,7 @@ define('application',[
                     model.sync('create', model, {
                         success: onComplete,
                         error: function(){
-                            console.log('Failed to add bodypart to sql')
+                            console.log('Failed to add bodypart to sql');
                         }
                     });
 
@@ -193,7 +197,7 @@ define('application',[
                         App.Workout = model;
                         deferred.resolve();
                     }
-                })
+                });
             });
 
             return deferred.promise();
@@ -234,7 +238,7 @@ define('application',[
                     _bindExternalLinks();
                     _bindWorkoutListner();
                     
-                    _this.router = new Router;
+                    _this.router = new Router();
 
                     Backbone.history.start();
                 };
@@ -245,7 +249,7 @@ define('application',[
                         App.version = data.version;
                         onSyncComplete();
                     });
-            })
+            });
         },
 
         vibrate: function(time){
@@ -260,7 +264,7 @@ define('application',[
 
             return function toggleLoader (toggle) {
                     loader.toggle(toggle);
-                }
+                };
         }()),
 
         navigate: function (url) {
@@ -273,7 +277,7 @@ define('application',[
 
         showView: _showView,
 
-        cache: new Cache,
+        cache: new Cache(),
 
         message: function(msg){ //TODO use plugin??
             $('body').append('<p>'+ msg +'</p>');
@@ -291,7 +295,11 @@ define('application',[
         setColorPalette: _setColorPalette,
 
         toast: function(type, msg){
-            toastr[type] ? toastr[type](msg) : toastr.info(msg);
+            if(toastr[type]){
+                toastr[type](msg);
+            } else {
+                toastr.info(msg);
+            }
         },
 
         uuid: function(){
@@ -377,7 +385,7 @@ define('application',[
             return {
                 touchstart : ('ontouchstart' in document.documentElement) ? 'mousedown' : 'touchstart',
                 touchend : ('touchend' in document.documentElement) ? 'mouseup' : 'touchend'
-            }
+            };
         }()),
 
         openTimer: (function(){
@@ -389,7 +397,7 @@ define('application',[
             return function(){
                 if(!_timerView){
                     require(['views/timer'], function(View){
-                        _timerView = new View;
+                        _timerView = new View();
 
                         $(document.body).append(_timerView.render().el);
 
@@ -399,10 +407,10 @@ define('application',[
                 else {
                     toggleView();
                 }
-            }
+            };
 
         }())
 
     };
 
-})
+});

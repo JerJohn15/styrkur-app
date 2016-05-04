@@ -15,13 +15,15 @@ define('views/measurements/measurements',
                 collection = {};
             _this.parts.each(function(part){
                     var model = part.toJSON();
-                    model.items = []
+                    model.items = [];
                     collection[model.id] = model;
                 });
             _this.measurements.each(function(measurement){
                     _.each(measurement.get('items'), function(item){
                         var part = collection[item.partid];
-                        if(!part) return;
+                        if(!part){
+                            return;
+                        }
                         item.date = measurement.get('date');
                         part.items.push(item);
                     });
@@ -65,8 +67,8 @@ define('views/measurements/measurements',
                         onRender();
                     };
 
-                _this.parts = new BodyCollection;
-                _this.measurements = new Measurements;
+                _this.parts = new BodyCollection();
+                _this.measurements = new Measurements();
 
                 _this.parts.fetch({
                     success: onSuccess,

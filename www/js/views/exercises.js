@@ -8,7 +8,8 @@ define('views/exercises',
         'backbone'
     ],
     function(BaseView, Template, Model, ExItemView, Collection, Backbone){
-
+    'use strict';
+    
     var View = BaseView.extend({
     
         Template: Template,
@@ -20,7 +21,7 @@ define('views/exercises',
         	_this.instance = new Model({ parent: sessionId });
             //Filter exercises to enabled
         	_this.collection = new Backbone.Collection(_this.model.get('exercises').filter(function(item){
-                    return item.get('enabled') == undefined || item.get('enabled');
+                    return item.get('enabled') === undefined || item.get('enabled');
                 }));
 
             var allWorkouts = new Collection();
@@ -72,7 +73,7 @@ define('views/exercises',
                 _this.$('.weight-lifted').text(totalLifted + App.enums.units.weight());
             }
             else {
-                _this.$('.welldone-box h2').text('Another workout well done!')
+                _this.$('.welldone-box h2').text('Another workout well done!');
             }
 
             _this.instance.save(null, {

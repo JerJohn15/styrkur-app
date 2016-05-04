@@ -6,6 +6,7 @@ define('views/plan/server-list',
         'templates/plan/server-list.html'
     ],
     function(ParentView, ItemView, Collection, Template){
+    'use strict';
     
     var View = ParentView.extend({
 

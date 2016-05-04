@@ -26,13 +26,13 @@
         }
     },
 
-	optimize: 'none',
+    optimize: 'none',
 
-	baseUrl: './',
+    baseUrl: './',
 
-	name: 'main',
+    name: 'main',
 
     excludeShallow: ['main'],
 
-	out: './main_app.js'
+    out: './main_app.js'
 })

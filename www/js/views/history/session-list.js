@@ -5,7 +5,8 @@ define('views/history/session-list',
         'views/history/session-list-item'
     ],
     function(BaseView, Template, ItemView){
-
+    'use strict';
+    
     var View = BaseView.extend({
     
         Template: Template,

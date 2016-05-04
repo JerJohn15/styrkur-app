@@ -4,7 +4,8 @@ define('collections/serveritems',
         'models/serveritem'
     ], 
     function(Backbone, Model){
-        
+    'use strict';
+    
     return  Backbone.Collection.extend({
         
         model: Model,

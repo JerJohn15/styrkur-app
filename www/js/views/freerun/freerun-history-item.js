@@ -6,6 +6,7 @@ define('views/freerun/freerun-history-item',
         ,'moment'
     ],
     function(BaseView, Template){
+    'use strict';
 
     var View = BaseView.extend({
 

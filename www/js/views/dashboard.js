@@ -5,7 +5,8 @@
         'views/widgets/chart'
     ], 
     function (BaseView, Template, ChartView) {
-    
+    'use strict';
+
     var view = BaseView.extend({
 
     	render: function(){
@@ -14,7 +15,7 @@
                 
     		view.__super__.render.apply(_this, arguments);
 
-            chartview = new ChartView()
+            chartview = new ChartView();
             _this.$('.chart-lastweeks').append(chartview.render().el);
             _this.chartView = chartview;
 
@@ -27,8 +28,12 @@
 
     	Close: function(){
     		var _this = this;
-    		_this.chartView ? _this.chartView.Close() : false;
-            _this.tutorialView ? _this.tutorialView.Close() : false;
+    		if(_this.chartView){
+            _this.chartView.Close();
+        }
+        if(_this.tutorialView){
+            _this.tutorialView.Close();
+        }
             
     		return view.__super__.Close.apply(_this, arguments);
     	}
@@ -36,4 +41,4 @@
     });
 
     return view;
-})
+});

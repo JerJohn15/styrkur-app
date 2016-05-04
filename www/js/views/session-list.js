@@ -8,7 +8,8 @@ define('views/session-list',
         ,'moment'
     ],
     function(ParentView, ItemView, Collection, Instances, Template){
-    
+    'use strict';
+
     var View = ParentView.extend({
 
         initialize: function(){
@@ -17,7 +18,7 @@ define('views/session-list',
 
         render: function(){
             var _this = this,
-                instances = new Instances,
+                instances = new Instances(),
                 doRender = function(){
                     View.__super__.render.apply(_this, arguments);
                     _this.renderChildren();
@@ -42,21 +43,21 @@ define('views/session-list',
                 elements = [];
 
             _this.collection.each(function(item){
-                var match = _this.instances.filter(function(it){ return it.get('parent') === item.get('id') }),
+                var match = _this.instances.filter(function(it){ return it.get('parent') === item.get('id'); }),
                     last = _.max(match, function(it){ return it.get('date'); }),
                     options = {
                         workoutid: _this.workoutId,
                         last: (last && last.get) ? moment(last.get('date')).format( App.enums.units.shortDateTime() ) : false,
                         count: match.length
                     },
-                    itemView = new _this.ItemView;
+                    itemView = new _this.ItemView();
                 
                 itemView.options = options;
                 itemView.model = item;
 
                 _this.children.push(itemView);
 
-                elements.push(itemView.render().el)
+                elements.push(itemView.render().el);
             });
             if(elements.length){
                 _this.$el.append(elements);

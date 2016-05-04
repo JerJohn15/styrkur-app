@@ -3,6 +3,7 @@ define('models/exercise',
         'backbone'
     ], 
     function(Backbone){
+    'use strict';
 
     return Backbone.Model.extend({
 
@@ -20,7 +21,9 @@ define('models/exercise',
         },
 
         initialize: function(attr, options){
-            attr.id || this.set('id', App.uuid());
+            if(!attr.id){
+                this.set('id', App.uuid());
+            }
         }
         
     });

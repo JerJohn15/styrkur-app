@@ -7,12 +7,13 @@ define('views/freerun/freerun',
         ,'backbone.stickit'
     ],
     function(BaseView, Template, ItemView, InstanceModel, Backbone){
+    'use strict';
 
     var view = BaseView.extend({
 
         initialize: function(opt){
             var _this = this;
-            _this.options = _.extend({}, opt || {});;
+            _this.options = _.extend({}, opt || {});
             view.__super__.initialize.apply(_this, arguments);
         },
 
@@ -64,7 +65,7 @@ define('views/freerun/freerun',
                 _this.$('.weight-lifted').text(totalLifted + App.enums.units.weight());
             }
             else {
-                _this.$('.welldone-box h2').text('Another workout well done!')
+                _this.$('.welldone-box h2').text('Another workout well done!');
             }
 
             _this.model.save(null, {

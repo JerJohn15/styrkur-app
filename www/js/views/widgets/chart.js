@@ -10,7 +10,7 @@ define('views/widgets/chart',
     
     var _getRange = function(week){
             var thisWeek = week || moment().week(),
-                list = []
+                list = [];
 
             while(thisWeek > 0 && list.length < 12){
                 list.unshift(thisWeek--);
@@ -43,7 +43,7 @@ define('views/widgets/chart',
                     filters: 'date between ' + dmonth + ' and ' + dnow,
                     success: function(col, items){
 
-                        var dates = _.map(items, function(a){ return a.date }),
+                        var dates = _.map(items, function(a){ return a.date; }),
                             groups,
                             svg,
                             maxVal = 1,

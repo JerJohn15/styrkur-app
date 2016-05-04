@@ -54,7 +54,7 @@ define('views/exercise-item',
                     prevExercise,
                     prevSet;
             if(_this.options.lastWorkout && _this.options.lastWorkout.get('exercises')){
-                var prevExercise = _this.options.lastWorkout.get('exercises').findWhere({ exercise: _this.model.get('id') });
+                prevExercise = _this.options.lastWorkout.get('exercises').findWhere({ exercise: _this.model.get('id') });
                 prevSet = prevExercise ? prevExercise.get('sets').at(index) : undefined;
             }
 
@@ -63,7 +63,7 @@ define('views/exercise-item',
 
         renderSet: function(model, index){
             var _this = this,
-                view = new SetView,
+                view = new SetView(),
                 lastWorkout = _this.findSetFromLastWorkout(index);
 
             view.model = model;
