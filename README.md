@@ -17,10 +17,13 @@ Track your measurements, weight and muscle gain with a simple and charts.
 
 ---------------
 
-Available on Play Store and App Store
+Available on Play Store and App Store and F-Droid!
 
 <a href="https://play.google.com/store/apps/details?id=com.styrkurapp.app&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
 	<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge-border.png" height="45" />
+</a>
+<a href="https://f-droid.org/repository/browse/?fdfilter=styrkur&fdid=com.styrkurapp.app">
+	<img alt="Get it on F-droid" src="https://www.styrkurapp.com/images/f-droid.svg" height="45">
 </a>
 <a href="https://itunes.apple.com/us/app/styrkur-workout-journal/id1013637235">
 	<img alt="Download on the App Store" src="http://styrkurapp.com/images/appstore.svg" height="45">
