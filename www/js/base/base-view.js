@@ -13,7 +13,7 @@ define('base/base-view',
                 template = _this.Template,
                 renderTemplate = function(){
                     var model = (_this.model && _this.model.attributes) ? _this.model.attributes : (_this.model ? _this.model : {}),
-                        attr = _.extend({}, model, _this.options);
+                        attr = _.extend({ t: App.translate }, model, _this.options);
                     _this.$el.html(template(attr));
                     return _this;
                 };

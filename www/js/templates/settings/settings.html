@@ -1,48 +1,56 @@
 <div class="form-group">
-	<label>Gender</label>
+	<label><%= t('gender.gender') %></label>
 	<select name="gender" class="form-control" required="required">
-		<option value="">Select one</option>
-		<option value="1">Male</option>
-		<option value="2">Female</option>
+		<option value=""><%= t('shared.select') %></option>
+		<option value="1"><%= t('gender.male') %></option>
+		<option value="2"><%= t('gender.female') %></option>
 	</select>
 </div>
 <div class="form-group">
-	<label>Age</label>
+	<label><%= t('settings.age') %></label>
 	<div class="input-group">
 		<input name="age" class="form-control" type="number">
-		<span class="input-group-addon">years</span>
+		<span class="input-group-addon"><%= t('settings.years') %></span>
 	</div>
 </div>
 <div class="form-group">
-	<label>I want to..</label>
+	<label><%= t('settings.goal') %></label>
 	<select name="goaltype" class="form-control" required="required">
-		<option value="">Select one</option>
-		<option value="1">Build muscles</option>
-		<option value="2">Loose weight</option>
-		<option value="3">Get healthier</option>
+		<option value=""><%= t('shared.select') %></option>
+		<option value="1"><%= t('settings.buildmuscle') %></option>
+		<option value="2"><%= t('settings.looseweight') %></option>
+		<option value="3"><%= t('settings.gethealthy') %></option>
 	</select>
 </div>
 
 <div class="form-group tut-weight-goal">
-	<label>Do you have a weight goal?</label>
+	<label><%= t('settings.weightgoal') %></label>
 	<div class="input-group">
 		<input name="goal" class="form-control" type="number">
 		<span class="input-group-addon">kg/lbs</span>
 	</div>
 </div>
 <div class="form-group">
-	<label>Units of measure</label>
+	<label><%= t('settings.unit') %></label>
 	<select name="units" class="form-control">
 		<option value="metric" <%if(units ==='metric'){%>selected<%}%>>Metric</option>
 		<option value="imperial"<%if(units ==='imperial'){%>selected<%}%>>Imperial</option>
 	</select>
 </div>
 <div class="form-group">
-	<label>App colors</label>
+	<label><%= t('settings.appcolor') %></label>
 	<select name="colorpalette" class="form-control" required="required">
-		<option value="blue">Blue</option>
-		<option value="red">Red</option>
-		<option value="orange">Orange</option>
-		<option value="pantone">Pantone</option>
+		<option value="blue"><%= t('settings.blue') %></option>
+		<option value="red"><%= t('settings.red') %></option>
+		<option value="orange"><%= t('settings.orange') %></option>
+		<option value="pantone"><%= t('settings.pantone') %></option>
 	</select>
+</div>
+<div class="form-group">
+  <label><%= t('settings.language') %></label>
+  <select name="language" class="form-control" required="required">
+    <% _.each(languages, function(value, key){ %>
+      <option value="<%= key %>"><%= value %></option>
+    <% }) %>
+  </select>
 </div>

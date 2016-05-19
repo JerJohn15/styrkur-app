@@ -1,15 +1,15 @@
 <div class="view-header">
-	<h2>Measurements</h2>
+	<h2><%= t('measure.title') %></h2>
 </div>
 <div class="measurement-items"></div>
 
 
 <div class="comment-field card">
-	<label>Comment</label>
+	<label><%= t('shared.comment') %></label>
 	<textarea class="form-control" name="comment" rows="3"></textarea>
 
 	<div class="container-padding">
-		<button class="btn btn-primary btn-save">Save</button>
-		<a href="#/measurements" class="btn btn-link">Cancel</a>
+		<button class="btn btn-primary btn-save"><%= t('shared.save') %></button>
+		<a href="#/measurements" class="btn btn-link"><%= t('shared.cancel') %></a>
 	</div>
 </div>

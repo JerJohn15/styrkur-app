@@ -11,6 +11,9 @@ define('views/settings/settings',
 
         render: function(){
             var _this = this;
+
+            _this.options.languages = App.languages;
+
             view.__super__.render.apply(_this, arguments);
 
             _this.stickit();
@@ -36,6 +39,13 @@ define('views/settings/settings',
             '[name="goaltype"]': 'goalType',
             '[name="goal"]': 'targetWeight',
             '[name="units"]': 'units',
+            '[name="language"]': {
+                observe: 'language',
+                onSet: function(val){
+                    App.setLanguage(val);
+                    return val;
+                }
+            },
             '[name="colorpalette"]': 'colorpalette',
 
             '.tut-weight-goal .input-group-addon': {
@@ -51,6 +61,7 @@ define('views/settings/settings',
             e.preventDefault();
             var _this = this,
                 onSuccess = function () {
+                    App.setLanguage(App.User.get('language'));
                     App.toast('success', 'User updated');
                 },
                 onFail = function () {

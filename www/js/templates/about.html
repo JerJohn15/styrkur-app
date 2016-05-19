@@ -1,13 +1,13 @@
 <div class="card">
 	<h1>Styrkur</h1>
 	<em>v <%= version %></em>
-	<p>Styrkur is icelandic for strength. And that is just what this app is for.</p>
+	<p><%= t('about.text') %></p>
 	<div class="container-padding">
-		<a class="btn btn-link" href="http://www.styrkurapp.com" target="_blank">Visit us!</a>
-		<a class="btn btn-link" href="#/about/license">3rd party</a></li>
+		<a class="btn btn-link" href="http://www.styrkurapp.com" target="_blank"><%= t('about.site') %></a>
+		<a class="btn btn-link" href="#/about/license"><%= t('about.thirdparty') %></a></li>
 	</div>
 </div>
 
 <div class="settings-wrapper card">
-	<h3>Settings</h3>
+	<h3><%= t('settings.title') %></h3>
 </div>

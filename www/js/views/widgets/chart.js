@@ -26,7 +26,7 @@ define('views/widgets/chart',
 
         view = BaseView.extend({
 
-            Template: '<div class="ct-chart"></div><p>Week number</p>',
+            Template: '<div class="ct-chart"></div><p><%= t("dashboard.weeknum") %></p>',
 
             className: 'last-workouts',
             

@@ -3,9 +3,9 @@
 <p><i class="icon icon-message"></i><%= description %></p>
 <%}%>
 <% if(noData){ %>
-	<p>You need atleast two measurements</p>
+	<p><%= t('measure.minnotmet') %></p>
 	<% if(lastOne){ %>
-	<p>Last one was <%= lastOne %> at <%= lastDate %></p>
+	<p><%= t('measure.lastwas', { lastOne: lastOne, lastDate: lastDate }) %></p>
 	<% } %>
 <%} else {%>
 	<div class="ct-chart"></div>

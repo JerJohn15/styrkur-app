@@ -1,7 +1,7 @@
 <div class="set-heading container-padding">
 	<div>
 		<select class="form-control" name="muscle">
-			<option value="">Muscle</option>
+			<option value=""><%= t('workout.muscle') %></option>
 			<% parent.muscles.each(function(muscle){ %>
 				<option value="<%= muscle.get('id') %>"><%= muscle.get('name') %></option>
 			<%});%>
@@ -9,7 +9,7 @@
 	</div>
 	<div>
 		<select class="form-control" name="movement">
-			<option value="">Movement</option>
+			<option value=""><%= t('workout.movement') %></option>
 		</select>
 	</div>
 </div>
@@ -20,5 +20,5 @@
 	</div>
 </div>
 <div class="clearfix form-group">
-	<button class="pull-right btn btn-default btn-add-set">Add extra set</button>
+	<button class="pull-right btn btn-default btn-add-set"><%= t('workout.addset') %></button>
 </div>

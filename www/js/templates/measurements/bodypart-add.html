@@ -1,27 +1,27 @@
 <div class="view-header">
-	<h2>Add part</h2>
+	<h2><%= t('measure.addpart') %></h2>
 </div>
 
 <div class="card">
 	<div class="form-group">
-		<label>Name</label>
+		<label><%= t('shared.name') %></label>
 		<input type="text" name="name" class="form-control">
 	</div>
 	<div class="form-group">
-		<label>Description</label>
+		<label><%= t('shared.description') %></label>
 		<textarea name="description" class="form-control"></textarea>
 	</div>
 	<div class="form-group">
-		<label>Unit type</label>
+		<label><%= t('measure.unittype') %></label>
 		<select name="unittype" class="form-control">
-			<option value="weight">Weight</option>
-			<option value="percent">Percent</option>
-			<option value="shortLength">Short length</option>
-			<option value="longLength">Long length</option>
+			<option value="weight"><%= t('measure.weight') %></option>
+			<option value="percent"><%= t('measure.percent') %></option>
+			<option value="shortLength"><%= t('measure.shortlen') %></option>
+			<option value="longLength"><%= t('measure.longlen') %></option>
 		</select>
 	</div>
 
 	<div class="clearfix">
-		<button class="btn btn-primary btn-save"><i class="icon icon-plus"></i> Add</button><a href="#/measurements/" class="btn btn-link">Cancel</a>
+		<button class="btn btn-primary btn-save"><i class="icon icon-plus"></i> <%= t('measure.add') %></button><a href="#/measurements/" class="btn btn-link"><%= t('shared.cancel') %></a>
 	</div>
 </div>

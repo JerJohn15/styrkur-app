@@ -1,9 +1,9 @@
 <div class="select-edit-toggle muscle-select">
-	<label>Muscle group</label>
+	<label><%= t('workout.musclegroup') %></label>
 	<div class="select-edit-list sidebyside">
 		<div>
 			<select class="form-control" name="muscleid">
-					<option value="">Select one or make your own</option>
+					<option value=""><%= t('workout.musclegroup') %></option>
 				<% parent.muscles.each(function(muscle){ %>
 					<option value="<%= muscle.get('id') %>"><%= muscle.get('name') %></option>
 				<%});%>
@@ -25,18 +25,18 @@
 <div class="movement-select">
 </div>
 <div>
-	<label>Type</label>
+	<label><%= t('workouttype.type') %></label>
 	<select name="type" class="form-control">
-		<option value="weightrep">Weight/Reps</option>
-		<option value="weight">Weight</option>
-		<option value="reps">Repetitions</option>
-		<option value="distance">Distance</option>
-		<option value="time">Time</option>
-		<option value="beats">Heartrate</option>
+		<option value="weightrep"><%= t('workouttype.weightrep') %></option>
+		<option value="weight"><%= t('workouttype.weightrep') %></option>
+		<option value="reps"><%= t('workouttype.reps') %></option>
+		<option value="distance"><%= t('workouttype.distance') %></option>
+		<option value="time"><%= t('workouttype.time') %></option>
+		<option value="beats"><%= t('workouttype.beats') %></option>
 	</select>
 </div>
 <div>
-	<label>Sets &amp; Pause</label>
+	<label><%= t('workout.setsandpause') %></label>
 	<div class="split-td">
 		<div class="split-td-inner">
 			<div class="input-group">
@@ -48,13 +48,13 @@
 			<div class="input-group">
 			  <span class="input-group-addon"><i class="icon icon-stopwatch"></i></span>
 			  <input type="number" name="pause" placeholder="Seconds of rest" class="form-control">
-			  <span class="input-group-addon">sek</span>
+			  <span class="input-group-addon"><%= t('shared.sek') %></span>
 			</div>
 		</div>
 	</div>
 </div>
 <div>
-	<label>Enabled</label>
+	<label><%= t('shared.enabled') %></label>
 	<label class="checkbox-label">
 		<input type="checkbox" name="enabled">
 		<i class="icon icon-check"></i>

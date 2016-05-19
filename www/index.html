@@ -56,7 +56,8 @@
                 'text': '../libs/requirejs/text',
                 'moment': '../libs/moment/moment',
                 'toastr': '../libs/toastr/toastr',
-                'chartist': '../libs/chart/chartist'
+                'chartist': '../libs/chart/chartist',
+                'i18next': '../libs/i18next/i18next.min'
             },
             shim: {
                 'backbone': {
@@ -80,15 +81,16 @@
             'underscore',
             'application',
             'router',
-            'backbone'
-            ,'backbone-websql'
+            'backbone',
+            'backbone-websql'
             ,'js/templates/templates.js'
         ], function ($, _, Application, Router, Backbone, WebSQLStore) {
             window.db = openDatabase('fittracker', '', 'Styrkur db', 5 * 1024 * 1024);
             window.WebSQLStore = WebSQLStore;
             window.App = Application;
-            
+
             Application.initialize(Router);
+            
         });
     }());
     </script>

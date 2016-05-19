@@ -1,9 +1,9 @@
 <div class="select-edit-toggle">
-	<label>Exercise</label>
+	<label><%= t('create.exercise') %></label>
 	<div class="select-edit-list sidebyside">
 		<div>
 			<select class="form-control" name="movementid">
-				<option value="">Select one or make your own</option>
+				<option value=""><%= t('create.selectormake') %></option>
 				<% _.each(movements, function(movement){ %>
 					<option value="<%= movement.get('id') %>"><%= movement.get('name') %></option>
 				<%});%>
@@ -15,7 +15,7 @@
 	</div>
 	<div class="select-edit-input sidebyside">
 		<div>
-			<input type="text" name="exercise" placeholder="Exercise" class="form-control">
+			<input type="text" name="exercise" placeholder="<%= t('create.exercise') %>" class="form-control">
 		</div>
 		<div>
 			<button class="btn btn-default movement-select-toggle icon icon-list"></button>

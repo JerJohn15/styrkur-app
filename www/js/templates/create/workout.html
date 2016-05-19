@@ -1,8 +1,8 @@
 ﻿<div class="form-group">
-    <label for="txtname">Name</label>
-    <input type="text" id="txtname" placeholder="Name" name="name" class="form-control" >
+    <label for="txtname"><%= t('shared.name') %></label>
+    <input type="text" id="txtname" placeholder="<%= t('shared.name') %>" name="name" class="form-control" >
 </div>
 <div class="form-group">
-    <button class="btn btn-primary btn-create">Next</button>
-	<a class="btn btn-link" href="#/plan">Cancel</a>
+    <button class="btn btn-primary btn-create"><%= t('shared.next') %></button>
+    <a class="btn btn-link" href="#/plan"><%= t('shared.cancel') %></a>
 </div>

@@ -2,10 +2,11 @@ define('application',[
         'backbone', 
         'toastr',
         'underscore',
-        'plugins/cache'
+        'plugins/cache',
+        'plugins/bb-i18next'
         ,'backbone-wreqr'
     ], 
-    function(Backbone, toastr, _, Cache){
+    function(Backbone, toastr, _, Cache, bbi18next){
     'use strict';
         
     var _showView = function (view, area) {
@@ -71,138 +72,6 @@ define('application',[
                 $menu.html((new Menu()).render().el);
             });
         },
-        /* Deletable START */
-        _getUser = function(onComplete){
-            var _this = this,
-                setUser = function(collection, arr, options){
-                    if(collection.length){
-
-                        _this.User = collection.pop();
-
-                        _this.User.on('change', function(){
-                            _this.User.sync('update', _this.User, { success: function(){} });
-                            _setColorPalette(_this.User.get('colorpalette') || 'blue' );
-                        });
-
-                        _setColorPalette(_this.User.get('colorpalette') || 'blue' );
-
-                        deferred.resolve({firstTime: false});
-                    }
-                    else {
-                        _this.User = collection.create({ name: 'User' });
-
-                        var onTutorialComplete = function(){
-                            _this.User.on('change', function(){
-                                _this.User.sync('update', _this.User, { success: function(){} });
-                                _setColorPalette(_this.User.get('colorpalette') || 'blue' );
-                            });
-                            _setColorPalette(_this.User.get('colorpalette') || 'blue' );
-                            
-                            deferred.resolve({ firstTime: true });
-                        };
-
-                        require(['views/tutorial/tutorial'],function(TutorialView){
-                            var view = new TutorialView();
-                            view.model = _this.User;
-
-                            view.options.onComplete = onTutorialComplete;
-
-                            document.body.appendChild(view.render().el);
-                        });
-
-                    }
-                },
-                deferred = new $.Deferred();
-
-            require(['collections/users'], function (Collection) {
-                var collection = new Collection();
-                collection.fetch({
-                    limit: 1,
-                    success: setUser
-                });
-            });
-
-            return deferred.promise();
-        },
-        _createWorkout = function(cfg){
-            if(!cfg || ! cfg.workout){
-                return false;
-            }
-
-            var deferred = new $.Deferred();
-
-            require(['models/workout', 'workoutplans/' + cfg.workout], function(Model, Workout){
-                var model = new Model(Workout);
-                model.sync('create', model, {
-                    success: function(){
-                        App.User.set('workout', model.get('id'));
-                        if(!cfg.silent){
-                            App.toast('success', 'Successfully added workout.');
-                        }
-                        _getDefaultWorkout(deferred);
-                    },
-                    error: function(){
-                        console.log('Error loading workout, "' + cfg.workout + '"', arguments);
-                        if(!cfg.silent){
-                            App.toast('error', 'Failed loading workout.');
-                        }
-                        deferred.reject();
-                    }
-                });
-            });
-
-            return deferred;
-        },
-        _createMeasurements = function(){
-            
-            var deferred = new $.Deferred();
-
-            require(['models/body-part', 'workoutplans/measurements'], function(Model, BodyParts){
-                var count = 0,
-                    length = BodyParts.length,
-                    onComplete = function(){
-                        if(++count === length){
-                            deferred.resolve();
-                        }
-                    };
-
-                _.each(BodyParts, function(Bodypart){
-                    var model = new Model(Bodypart);
-
-                    model.sync('create', model, {
-                        success: onComplete,
-                        error: function(){
-                            console.log('Failed to add bodypart to sql');
-                        }
-                    });
-
-                });
-            });
-
-            return deferred;
-        },
-        _createMovements = function(){
-            var _this = this;
-            require(['collections/movements','plugins/movements'], function(movements, MovementsSetup){
-
-            });
-        },
-        _getDefaultWorkout = function(prevDeferred){
-            var deferred = prevDeferred || new $.Deferred();
-            require(['models/workout'], function(Model){
-                var model = new Model({ id: App.User.get('workout') });
-
-                model.fetch({
-                    success: function(){
-                        App.Workout = model;
-                        deferred.resolve();
-                    }
-                });
-            });
-
-            return deferred.promise();
-        },
-        /* DELETABLE END */
         _bindWorkoutListner = function(){
             App.Events.on('workout:changed', function(){
                 _getDefaultWorkout();
@@ -231,6 +100,11 @@ define('application',[
 
         initialize: function (Router) {
             var _this = this,
+                onSetupDone = function(){
+                    var lang = _this.User.get('language') || 'en';
+                    
+                    _this.setLanguage(lang, onSyncComplete);
+                },
                 onSyncComplete = function onSyncComplete(){
                     _showNavMenu.call(_this);
 
@@ -247,8 +121,23 @@ define('application',[
                 Setup.init()
                     .then(function(data){
                         App.version = data.version;
-                        onSyncComplete();
+                        onSetupDone();
                     });
+            });
+        },
+
+        languages: {
+            'en': 'English',
+            'is': 'Íslenska'
+        },
+
+        setLanguage: function(lang, cb){
+            console.log(lang);
+            bbi18next(lang, function(translate){
+                window.App.translate = translate;
+                if(cb){
+                    cb();
+                }
             });
         },
 
