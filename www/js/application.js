@@ -132,7 +132,6 @@ define('application',[
         },
 
         setLanguage: function(lang, cb){
-            console.log(lang);
             bbi18next(lang, function(translate){
                 window.App.translate = translate;
                 if(cb){
