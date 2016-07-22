@@ -8,7 +8,8 @@
         'backbone-websql': '../libs/backbone/backbone-websql',
         'moment': '../libs/moment/moment',
         'toastr': '../libs/toastr/toastr',
-        'chartist': '../libs/chart/chartist'
+        'chartist': '../libs/chart/chartist',
+        'i18next': '../libs/i18next/i18next.min'
     },
     shim: {
         'backbone': {

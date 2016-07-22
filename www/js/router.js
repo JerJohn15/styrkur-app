@@ -10,6 +10,7 @@ define(['backbone'], function(Backbone){
             'settings(/)': 'settings',
             'workout(/)': 'workout',
             'workout/:id(/)': 'do-workout',
+            'workout/edit/:id(/)': 'edit-workout',
 
             /* Free workout */
             'freerun(/)': 'freerun',
@@ -111,11 +112,34 @@ define(['backbone'], function(Backbone){
 
                 App.showView(view);
             });
+        },
 
+        'edit-workout': function(id){
+            require([
+                    'views/exercises',
+                    'models/session-instance'
+                ], 
+                function(View, Instance){
+                    var view = new View();
+
+                    view.instance = new Instance({ id: id });
+
+                    view.parentModel = App.Workout;
+
+                    view.instance.fetch({
+                        success: function(){
+                            view.model = App.Workout.get('sessions').findWhere({ 
+                              id: view.instance.get('parent')
+                            });
+
+                            App.showView(view);
+                        }
+                    });
+
+                });
         },
 
         /* Free-run start */
-
         'freerun': function(){
             require([
                     'views/freerun/freerun', 

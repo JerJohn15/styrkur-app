@@ -26,17 +26,21 @@ define('views/exercise-item',
         render: function(){
             var _this = this,
                 exerciseId = _this.model.get('id'),
-                instance = new InstanceModel({ exercise: exerciseId }),
+                editMode = !!_this.instance,
+                instance = _this.instance || new InstanceModel({ exercise: exerciseId }),
                 setColl = instance.get('sets'),
-                numbSets = parseInt(_this.model.get('sets'));
+                numbSets = Math.max(setColl.length, parseInt(_this.model.get('sets')));
 
             view.__super__.render.apply(_this, arguments);
 
             for(var i = 0; i < numbSets; i++){
-                var model = new SetModel();
+                var model = setColl.at(i);
 
-                setColl.add(model);
-
+                if(!model){
+                    model = new SetModel();
+                    setColl.add(model);
+                }
+                
                 this.renderSet(model, i);
             }
 

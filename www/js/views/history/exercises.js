@@ -44,7 +44,7 @@ define('views/history/exercises',
                 _this.session.get('exercises').each(function(exercise){
                     var view = new ItemView(),
                         exId = exercise.get('id'),
-                        instance = _.find(_this.model.get('exercises'), function(it){ return it.exercise === exId; });
+                        instance = _this.model.get('exercises').findWhere({ 'exercise': exId });
 
                     if(!instance){
                         return;
@@ -52,7 +52,7 @@ define('views/history/exercises',
 
                     view.model = {
                         exercise : exercise.toJSON(),
-                        instance: instance
+                        instance: instance.toJSON()
                     };
 
                     _this.children.push(view);
@@ -65,7 +65,45 @@ define('views/history/exercises',
             },
 
             events: {
-                'click .btn-back': 'go-back'
+                'click .btn-back': 'go-back',
+                'click .btn-delete': 'delete'
+            },
+
+            'delete': function(e){
+                e.preventDefault();
+                var _this = this;
+
+                require(['components/confirm'], function(Confirm){
+                    _this.confirmBox = new Confirm({
+                        title: 'Delete instance',
+                        text: 'Deleting this instance can not be undone',
+                        confirmtext: 'Delete',
+                        confirmdanger: true,
+                        canceltext: 'Cancel',
+                        cancelFn: function(){
+                            _this.closeConfirmBox();
+                        },
+                        confirmFn: function(){
+                            _this.deleteItem();
+                            _this.closeConfirmBox();
+                        }
+                    });
+
+                    $(document.body).append(_this.confirmBox.render().el);
+                });
+            },
+
+            deleteItem: function(){
+                var _this = this;
+                _this.model.destroy({
+                    success: function(){
+                        App.toast('success', 'Item removed');
+                        window.history.back();
+                    },
+                    error: function(){
+                        App.toast('info', 'Failed to remove item');
+                    }
+                })
             },
 
             'go-back': function(e){
@@ -74,12 +112,21 @@ define('views/history/exercises',
                 window.history.back();
             },
 
+            closeConfirmBox: function(){
+                var _this = this;
+                if(_this.confirmBox){
+                    _this.confirmBox.Close();
+                    delete _this.confirmBox;
+                }           
+            },
+
             Close: function(){
                 var _this = this;
                 _.each(_this.children, function(child){
                     child.Close();
                 });
                 _this.children = [];
+                _this.closeConfirmBox();
 
                 View.__super__.Close.apply(_this, arguments);
             }

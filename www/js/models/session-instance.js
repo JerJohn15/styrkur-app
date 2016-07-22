@@ -16,6 +16,14 @@ define('models/session-instance',
             exercises: undefined
         },
 
+        parse: function(attr, options){
+            if(attr.exercises){
+                attr.exercises = new Exercises(attr.exercises);
+            }
+            
+            return Model.__super__.parse.call(this, attr, options);
+        },
+
         initialize: function(attr, options){
             //Only set date if it does not exist..
             if(!attr.date){
