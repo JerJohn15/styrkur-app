@@ -9,6 +9,7 @@ require([
     'chartist',
     'plugins/setup',
     'plugins/side-menu',
+    'i18next',
 
     /* Collections */
     'collections/users', 'collections/exercise-instances',

@@ -1,4 +1,4 @@
-define(['i18next'], 
+define('plugins/bb-i18next', ['i18next'], 
         function(i18next){
 
         return function(lang, cb){
