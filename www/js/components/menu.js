@@ -10,6 +10,7 @@ define('components/menu',[
 
         initialize: function(){
             this.currentItem = 0;
+            view.__super__.initialize.apply(this, arguments);
         },
 
         colorpalette: ['blue', 'blue', 'orange', 'red', 'pantone'],
@@ -22,8 +23,8 @@ define('components/menu',[
             view.__super__.render.call(_this);
 
             App.Events.on('navigate:done', function(place){
-                _this.$('li').removeClass('active');
-                _this.$('li.nav-' + place).addClass('active');
+                _this.$('a.active', true).classList.remove('active');
+                _this.$('a.nav-' + place, true).classList.add('active');
             });
 
             return _this;

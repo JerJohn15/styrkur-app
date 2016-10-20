@@ -10,6 +10,20 @@ define('views/session-list',
     function(ParentView, ItemView, Collection, Instances, Template){
     'use strict';
 
+
+    var getMax = function(list, fn){
+        var maxItem;
+        var maxVal = -9007199254740991; //Number.MIN_SAFE_INTEGER
+        list.forEach(function (item) {
+            var current = fn(item);
+            if (current > maxVal){
+                maxVal = current;
+                maxItem = item;
+            }
+        });
+        return maxItem;
+    }
+
     var View = ParentView.extend({
 
         initialize: function(){
@@ -40,11 +54,13 @@ define('views/session-list',
 
         renderChildren: function(){
             var _this = this,
-                elements = [];
+                //elements = [],
+                count = 0,
+                fragment = document.createDocumentFragment();
 
-            _this.collection.each(function(item){
+            _this.collection.forEach(function(item){
                 var match = _this.instances.filter(function(it){ return it.get('parent') === item.get('id'); }),
-                    last = _.max(match, function(it){ return it.get('date'); }),
+                    last = getMax(match, function(it){ return it.get('date'); }),
                     options = {
                         workoutid: _this.workoutId,
                         last: (last && last.get) ? moment(last.get('date')).format( App.enums.units.shortDateTime() ) : false,
@@ -57,15 +73,17 @@ define('views/session-list',
 
                 _this.children.push(itemView);
 
-                elements.push(itemView.render().el);
+                fragment.appendChild(itemView.render().el)
+                ++count;
+                //elements.push(itemView.render().el);
             });
-            if(elements.length){
-                _this.$el.append(elements);
+            if(count){
+                _this.el.appendChild(fragment);
             }
         },
         
         Close: function() {
-            _.each(this.children, function(view){
+            this.children.forEach(function(view){
                 view.Close();
             });
             this.children = [];

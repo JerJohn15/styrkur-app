@@ -279,7 +279,30 @@
     return eq(a, b, [], []);
   };
 
-// Backbone.Events
+  utils.isArray = function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+
+  utils.each = function(obj, pre){
+    if(utils.isArray(obj)){
+      obj.forEach(pre);
+    }
+    else {
+      Object.keys(obj).forEach(function(key){
+        pre(obj[key], key);
+      });
+    }
+  };
+
+  utils.groupBy = function(list, key) {
+    var isFunc = typeof key === 'function';
+    return list.reduce(function(rv, x) { 
+      var v = isFunc ? key(x) : x[key]; 
+      (rv[v] = rv[v] || []).push(x); 
+      return rv; 
+    }, {});
+
+  };// Backbone.Events
 // ---------------
 
 // A module that can be mixed in to *any object* in order to provide it with
@@ -1170,7 +1193,7 @@ _.extend(Collection.prototype, Events, {
 
 });
 
-if (utilExists('each')) {
+if (utilExists('reject')) {
   // Underscore methods that we want to implement on the Collection.
   // 90% of the core usefulness of Backbone Collections is actually implemented
   // right here:
@@ -1204,7 +1227,7 @@ if (utilExists('each')) {
   });
 } else {
   ['forEach', 'map', 'filter', 'some', 'every', 'reduce', 'reduceRight',
-    'indexOf', 'lastIndexOf'].forEach(function(method) {
+    'indexOf', 'lastIndexOf', 'indexOf'].forEach(function(method) {
     Collection.prototype[method] = function(arg, context) {
       return this.models[method](arg, context);
     };
@@ -1310,8 +1333,8 @@ if (utilExists('each')) {
 
       _domEvents: null,
 
-      $: function(selector) {
-        return this.el.querySelectorAll(selector);
+      $: function(selector, single) {
+        return this.el[single ? 'querySelector' : 'querySelectorAll'](selector);
       },
 
       // Initialize is an empty function by default. Override it with your own
@@ -1453,12 +1476,15 @@ if (utilExists('each')) {
 
       // Remove all events created with `delegate` from `el`
       undelegateEvents: function() {
-        if (this.el) {
+        if (this.el && this._domEvents) {
           for (var i = 0, len = this._domEvents.length; i < len; i++) {
             var item = this._domEvents[i];
             elementRemoveEventListener.call(this.el, item.eventName, item.handler, false);
           };
           this._domEvents.length = 0;
+        }
+        else {
+          this._domEvents = [];
         }
         return this;
       },

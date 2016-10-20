@@ -4,7 +4,7 @@
 		<div>
 			<select class="form-control" name="movementid">
 				<option value=""><%= t('create.selectormake') %></option>
-				<% _.each(movements, function(movement){ %>
+				<% movements.forEach(function(movement){ %>
 					<option value="<%= movement.get('id') %>"><%= movement.get('name') %></option>
 				<%});%>
 			</select>

@@ -12,6 +12,7 @@ define('base/parent-view',
         initialize: function(){
             //Should be kept as 'selector' : view
             this.children = {};
+            ParentView.__super__.initialize.apply(this, arguments);
         },
     
         ShowChild: function(view, selector){
@@ -24,7 +25,7 @@ define('base/parent-view',
             }
             
             _this.children[selector] = view;
-            _this.$(selector).html(view.render().el);
+            _this.$(selector, true).appendChild(view.render().el);
             
             return _this;
         },

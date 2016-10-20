@@ -1,16 +1,18 @@
 define('base/base-view',
     [
         'backbone',
-        'backbone-template'
+        'exoskeleton.template'
     ], 
     function(Backbone, Templater){
     'use strict';
 
-    var htmlToEl = function(str){
-        var el = document.createElement('div');
+    var htmlToEl = function(str, tagName){
+        var el = document.createElement(tagName);
         el.innerHTML = str;
-        return el.parentElement;
+        return el;
     };
+
+    var _ = Backbone.utils;
     
     var BaseView = Backbone.View.extend({
     
@@ -21,7 +23,7 @@ define('base/base-view',
                     var model = (_this.model && _this.model.attributes) ? _this.model.attributes : (_this.model ? _this.model : {}),
                         attr = _.extend({ t: App.translate }, model, _this.options);
 
-                    _this.el.appendChild(htmlToEl(template(attr)));
+                    _this.el.appendChild(htmlToEl(template(attr), _this.tagName));
                     return _this;
                 };
                 

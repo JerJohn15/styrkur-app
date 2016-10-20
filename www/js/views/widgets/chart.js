@@ -1,12 +1,15 @@
 define('views/widgets/chart',
     [
+        'backbone',
         'base/base-view',
         'collections/session-instances',
         'chartist'
         ,'moment'
     ], 
-    function(BaseView, SessionsCollection, Chartist){
+    function(Backbone, BaseView, SessionsCollection, Chartist){
     'use strict';
+
+    var _ = Backbone.utils;
     
     var _getRange = function(week){
             var thisWeek = week || moment().week(),
@@ -34,7 +37,7 @@ define('views/widgets/chart',
                 var _this = this,
                     ctx,
                     collection = new SessionsCollection(),
-                    windowWidth = $(window).innerWidth(),
+                    windowWidth = window.innerWidth,
                     date = new Date().getTime(),
                     dnow = (date + 86400000),
                     dmonth = (date - 3 * 2592000000); //last 3 months
@@ -43,7 +46,7 @@ define('views/widgets/chart',
                     filters: 'date between ' + dmonth + ' and ' + dnow,
                     success: function(col, items){
 
-                        var dates = _.map(items, function(a){ return a.date; }),
+                        var dates = (items || []).map(function(a){ return a.date; }),
                             groups,
                             svg,
                             maxVal = 1,
@@ -57,16 +60,16 @@ define('views/widgets/chart',
                             return moment(item).week();
                         });
 
-                        data.series = [_.map(data.labels, function(lbl){
+                        data.series = [data.labels.map(function(lbl){
                                         return groups[lbl] ? groups[lbl].length : 0;
                                     })];
                         
                         view.__super__.render.apply(_this, arguments);
 
                         //Resize canvas for window
-                        svg = _this.$('.ct-chart');
+                        svg = _this.$('.ct-chart')[0];
 
-                        _this.chart = new Chartist.Line(svg[0], data, {
+                        _this.chart = new Chartist.Line(svg, data, {
                             fullWidth: true,
                             scaleMinSpace: 1,
                             chartPadding: {

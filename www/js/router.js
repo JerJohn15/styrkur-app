@@ -85,6 +85,7 @@ define(['backbone'], function(Backbone){
         },
 
         'workout': function(){
+            App.Events.trigger('navigate:done', 'workout');
             require(['views/workout'], function (View) {
                 var view = new View(),
                     currentPlan = App.User.get('workout'),

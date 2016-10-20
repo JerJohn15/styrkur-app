@@ -12,10 +12,11 @@ define('application',[
             area = area || 'main';
             var selectedArea = App.regions[area],
                 onDone = function(){
-                    $(selectedArea.selector).append(view.render().el);
-                    view.$el.addClass('slide-in')
-                        .one('animationend webkitAnimationEnd oAnimationEnd', function(){
-                            view.$el.removeClass('slide-in');
+                    document.querySelector(selectedArea.selector).appendChild(view.render().el);
+
+                    view.el.classList.add('slide-in');
+                    _once(view.el, 'animationend webkitAnimationEnd oAnimationEnd', function(){
+                            view.el.classList.remove('slide-in');
                         });
 
                     selectedArea.view = view;
@@ -43,8 +44,8 @@ define('application',[
                 var oldView = selectedArea.view;
                 selectedArea.view = undefined;
 
-                oldView.$el.addClass('slide-back');
-                oldView.$el.one('animationend webkitAnimationEnd oAnimationEnd', function(){
+                oldView.el.classList.add('slide-back');
+                _once(oldView.el, 'animationend webkitAnimationEnd oAnimationEnd', function(){
                     oldView.Close();
                     if(callback){
                         callback();
@@ -52,6 +53,34 @@ define('application',[
                 });
             }
         },
+        _once = (function(){
+            var eventListners = window.eventListners = {};
+
+            return function(el, events, callback, context){
+                var name = Date.now().getTime();
+                var eventList = eventListners[name] = events.split(' ').map(function(evnt){
+                    return {
+                        evnt: evnt,
+                        name: name,
+                        cb: callback,
+                        context: context || window
+                    };
+                });
+
+
+                eventList.forEach(function(evnt){
+                    var evntCB = evnt.eventCB = function(){
+                            eventListners[evnt.name].forEach(function(evntItem){
+                                el.removeEventListener(evntItem.evnt, evntItem.cb);
+                            });
+                            delete eventListners[evnt.name];
+                            evnt.cb.apply(evnt.context, arguments);
+                        };
+
+                    el.addEventListener(evnt, evntCB, false);
+                });
+            }
+        }()),
         _setColorPalette = (function(){ 
             var currentColor = '';
             return function(color){
@@ -84,12 +113,16 @@ define('application',[
         },
         _bindExternalLinks = function () {
             if(window.isMobile){
-                $(document).on('click', 'a[target="_blank"]', function(e){
-                    console.log('Browser called for ' + e.target.href);
-                    e.preventDefault();
-                    //window.open(e.target.href, '_system');
-                    window.open(e.target.href, '_system', 'location=yes');
-                });
+                document.body.addEventListener('click', function(e){
+                    debugger;
+                    var target = e.currentTarget;
+                    if(target.tagName === 'A' && target.getAttribute('target') === '_blank'){
+                        console.log('Browser called for ' + e.target.href);
+                        e.preventDefault();
+                        //window.open(e.target.href, '_system');
+                        window.open(e.target.href, '_system', 'location=yes');
+                    }
+                }, false);
             }
         };
 
@@ -260,7 +293,6 @@ define('application',[
                     var units = {};
                     var _this = this;
                     Object.keys(_this).forEach(function(key) {
-                      var value = obj[key];
                         if(key === 'getAll'){ return; }
                         units[key] = _this[key]();
                     });
@@ -287,7 +319,8 @@ define('application',[
         openTimer: (function(){
             var _timerView,
                 toggleView = function(){
-                    _timerView.$el.toggle();
+                    debugger;
+                    _timerView.el.toggle();
                 };
 
             return function(){
@@ -295,7 +328,7 @@ define('application',[
                     require(['views/timer'], function(View){
                         _timerView = new View();
 
-                        $(document.body).append(_timerView.render().el);
+                        document.body.appendChild(_timerView.render().el);
 
                         toggleView();
                     });

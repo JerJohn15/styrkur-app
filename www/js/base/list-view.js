@@ -1,14 +1,18 @@
 define('base/list-view',
     [
+        'backbone',
         'base/base-view'
     ],
-    function(BaseView){
+    function(Backbone, BaseView){
     'use strict';
+
+    var _ = Backbone.utils;
     
     var View = BaseView.extend({
 
         initialize: function(){
             this.children = [];
+            View.__super__.initialize.apply(this, arguments);
         },
 
         ItemView: undefined,
@@ -49,7 +53,7 @@ define('base/list-view',
         renderChildren: function(){
             var _this = this;
 
-            _this.collection.each(function(item){
+            _this.collection.forEach(function(item){
                 var itemView = new _this.ItemView();
                 itemView.model = item;
 

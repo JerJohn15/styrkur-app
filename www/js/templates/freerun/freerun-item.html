@@ -2,7 +2,7 @@
 	<div>
 		<select class="form-control" name="muscle">
 			<option value=""><%= t('workout.muscle') %></option>
-			<% parent.muscles.each(function(muscle){ %>
+			<% parent.muscles.forEach(function(muscle){ %>
 				<option value="<%= muscle.get('id') %>"><%= muscle.get('name') %></option>
 			<%});%>
 		</select>

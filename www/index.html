@@ -48,8 +48,7 @@
             bust: 't=' + (new Date).getTime(),
             paths: {
                 'backbone': '../libs/exoskeleton/exoskeleton',
-                'backbone-template': '../libs/backbone/backbone-template',
-                'backbone.nojq': '../libs/backbone/backbone.nojq',
+                'exoskeleton.template': '../libs/exoskeleton/exoskeleton.template',
                 'backbone.stickit': '../libs/backbone/backbone.stickit',
                 'backbone-wreqr': '../libs/backbone/backbone-wreqr',
                 'backbone-websql': '../libs/backbone/backbone-websql',
@@ -61,9 +60,6 @@
             },
             shim: {
                 'backbone.stickit': {
-                    deps: ['backbone']
-                },
-                'backbone.nojq': {
                     deps: ['backbone']
                 },
                 'underscore': {

@@ -16,7 +16,7 @@
     		view.__super__.render.apply(_this, arguments);
 
             chartview = new ChartView();
-            _this.$('.chart-lastweeks').append(chartview.render().el);
+            _this.$('.chart-lastweeks', true).appendChild(chartview.render().el);
             _this.chartView = chartview;
 
     		return _this;

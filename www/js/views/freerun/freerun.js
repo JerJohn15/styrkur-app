@@ -6,8 +6,10 @@ define('views/freerun/freerun',
         'backbone'
         ,'backbone.stickit'
     ],
-    function(BaseView, Template, ItemView, InstanceModel, Backbone){
+    function(BaseView, Template, ItemView, Backbone){
     'use strict';
+
+    var _ = Backbone.utils;
 
     var view = BaseView.extend({
 
