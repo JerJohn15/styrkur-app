@@ -47,9 +47,9 @@
             baseUrl: 'js',
             bust: 't=' + (new Date).getTime(),
             paths: {
-                'jquery': '../libs/jquery/jquery-2.0.3',
-                'underscore': '../libs/underscore/underscore',
-                'backbone': '../libs/backbone/backbone',
+                'backbone': '../libs/exoskeleton/exoskeleton',
+                'backbone-template': '../libs/backbone/backbone-template',
+                'backbone.nojq': '../libs/backbone/backbone.nojq',
                 'backbone.stickit': '../libs/backbone/backbone.stickit',
                 'backbone-wreqr': '../libs/backbone/backbone-wreqr',
                 'backbone-websql': '../libs/backbone/backbone-websql',
@@ -60,34 +60,46 @@
                 'i18next': '../libs/i18next/i18next.min'
             },
             shim: {
-                'backbone': {
-                    deps: ['underscore', 'jquery', ''],
-                    exports: 'Backbone'
+                'backbone.stickit': {
+                    deps: ['backbone']
+                },
+                'backbone.nojq': {
+                    deps: ['backbone']
                 },
                 'underscore': {
+                    deps: ['backbone'],
                     exports: '_'
-                },
-                'bootstrap': {
-                    deps: ['jquery']
-                },
-                'backbone.stickit': {
-                    deps: ['backbone', 'jquery']
                 }
             }
         });
 
+        define('jquery', function(){});
+        define('underscore', ['backbone'], function(Backbone){
+            return Backbone.utils;
+        });
+
         require([
-            'jquery',
-            'underscore',
             'application',
             'router',
             'backbone',
             'backbone-websql'
             ,'js/templates/templates.js'
-        ], function ($, _, Application, Router, Backbone, WebSQLStore) {
+        ], function (Application, Router, Backbone, WebSQLStore) {
             window.db = openDatabase('fittracker', '', 'Styrkur db', 5 * 1024 * 1024);
             window.WebSQLStore = WebSQLStore;
             window.App = Application;
+
+            Backbone.$ = function(){};
+            Backbone.View.prototype._setElement = function(el) {
+                    this.$el = el;
+                    this.el = el;
+                };
+            Backbone.View.prototype._setAttributes = function(attributes) {
+                    var _this = this;
+                    Object.keys(attributes).forEach(function(key){
+                        _this.el.setAttribute(key, attributes[key]);
+                    });
+                };
 
             Application.initialize(Router);
             

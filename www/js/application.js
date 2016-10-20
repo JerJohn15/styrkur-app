@@ -1,12 +1,11 @@
 define('application',[
         'backbone', 
         'toastr',
-        'underscore',
         'plugins/cache',
         'plugins/bb-i18next'
         ,'backbone-wreqr'
     ], 
-    function(Backbone, toastr, _, Cache, bbi18next){
+    function(Backbone, toastr, Cache, bbi18next){
     'use strict';
         
     var _showView = function (view, area) {
@@ -57,19 +56,19 @@ define('application',[
             var currentColor = '';
             return function(color){
                 if(currentColor){
-                    $(document.body).removeClass('color-' + currentColor);
+                    document.body.classList.remove('color-' + currentColor);
                 }
                 if(color){
                     currentColor = color;
-                    $(document.body).addClass('color-' + color);
+                    document.body.classList.add('color-' + color);
                 }
             };
         }()),
         _showNavMenu = function(){
             require(['components/menu'], function (Menu) {
-                var $menu = $('#site-nav');
+                var $menu = document.querySelector('#site-nav');
 
-                $menu.html((new Menu()).render().el);
+                $menu.appendChild((new Menu()).render().el);
             });
         },
         _bindWorkoutListner = function(){
@@ -78,10 +77,10 @@ define('application',[
             });
         },
         _bindTimer = function(){
-            $('.timer-toggle').on('click', function(e){
+            document.querySelector('.timer-toggle').addEventListener('click', function(e){
                 e.preventDefault();
                 App.openTimer();
-            });
+            }, false);
         },
         _bindExternalLinks = function () {
             if(window.isMobile){
@@ -147,8 +146,10 @@ define('application',[
         },
 
         toggleLoader: (function(){
-            var loader = $('<div class="loader7-wrapper" style="display: none;"><div class="loader7"></div></div>');
-            $(document.body).append(loader);
+            //Needs rewrite
+            var parent = document.createElement('div');
+            parent.innerHTML = '<div class="loader7-wrapper" style="display: none;"><div class="loader7"></div></div>';
+            document.body.appendChild(parent.firstChild);
 
             return function toggleLoader (toggle) {
                     loader.toggle(toggle);
@@ -160,7 +161,10 @@ define('application',[
         },
 
         title: function (title) {
-            $('title, #title').text(title);
+            var items = document.querySelectorAll('title, #title');
+            for(var i = 0; i < items.length; i++){
+                items[i].innerText = title;
+            }
         },
 
         showView: _showView,
@@ -168,7 +172,9 @@ define('application',[
         cache: new Cache(),
 
         message: function(msg){ //TODO use plugin??
-            $('body').append('<p>'+ msg +'</p>');
+            var p = document.createElement('p');
+            p.innerText = msg;
+            document.body.appendChild(p);
         },
 
         Events: new Backbone.Wreqr.EventAggregator(),
@@ -252,9 +258,11 @@ define('application',[
                 shortDateTime: function(){ return (App.User.get('units') === 'metric') ? 'DD. MM YYYY HH:mm' : 'MM DD YYYY HH:mm'; },
                 getAll: function(){
                     var units = {};
-                    _.each(this, function(unit, key){
+                    var _this = this;
+                    Object.keys(_this).forEach(function(key) {
+                      var value = obj[key];
                         if(key === 'getAll'){ return; }
-                        units[key] = unit();
+                        units[key] = _this[key]();
                     });
                     return units;
                 }

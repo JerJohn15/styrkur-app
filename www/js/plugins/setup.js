@@ -1,10 +1,12 @@
 define('plugins/setup', 
-    [
-        'jquery',
-        'underscore'
-    ], 
-    function($, _){
+    function(){
     'use strict';
+
+    var Defer = function(){
+        var resolve, reject;
+        var promise = new Promise(function(res, rej){ resolve = res; reject = rej; });
+        return { resolve: resolve, reject: reject, promise: promise };
+    }
     
     var _versionNewerThan = function(ver, against){
             var _this = this,
@@ -45,7 +47,9 @@ define('plugins/setup',
                 return false;
             }
 
-            var deferred = new $.Deferred();
+            
+            var deferred = Defer();
+
 
             require(['models/workout', 'workoutplans/' + cfg.workout], function(Model, Workout){
                 var model = new Model(Workout);
@@ -67,7 +71,7 @@ define('plugins/setup',
                 });
             });
 
-            return deferred;
+            return deferred.promise;
         },
         _createMeasurements = function(){
             
@@ -98,7 +102,7 @@ define('plugins/setup',
             return deferred;
         },
         _getDefaultWorkout = function(prevDeferred){
-            var deferred = prevDeferred || new $.Deferred();
+            var deferred = prevDeferred || Defer();
             require(['models/workout'], function(Model){
                 var model = new Model({ id: App.User.get('workout') });
 
@@ -110,7 +114,7 @@ define('plugins/setup',
                 });
             });
 
-            return deferred.promise();
+            return deferred.promise;
         },
         _getUser = function(onComplete){
             var _this = this,
@@ -142,7 +146,7 @@ define('plugins/setup',
                         });
                     }
                 },
-                deferred = new $.Deferred();
+                deferred = Defer();
 
             require(['collections/users'], function (Collection) {
                 var collection = new Collection();
@@ -152,7 +156,7 @@ define('plugins/setup',
                 });
             });
 
-            return deferred.promise();
+            return deferred.promise;
         }, 
         _doUpdates = function(version, deferred){
 
@@ -178,7 +182,7 @@ define('plugins/setup',
     return {
         init: function(){
             //Check what version the sql is.. run updates if necessary return current version 
-            var deferred = new $.Deferred(),
+            var deferred = Defer(),
                 measurements = function(programname){
                     _createMeasurements(programname)
                         .then(appInfo);
@@ -189,9 +193,9 @@ define('plugins/setup',
                         appInformation.fetch({
                             success: function(){
                                 var version = appInformation.get('version');
-                                var updDeferred = $.Deferred();
+                                var updDeferred = Defer();
 
-                                updDeferred.promise().then(function(version){
+                                updDeferred.promise.then(function(version){
                                     appInformation.set('version', version);
                                     appInformation.sync('update', appInformation, { success: function(){} });
 
@@ -224,7 +228,7 @@ define('plugins/setup',
                     }
                 });
 
-            return deferred;
+            return deferred.promise;
         },
 
     };

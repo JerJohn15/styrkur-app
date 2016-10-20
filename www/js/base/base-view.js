@@ -1,10 +1,16 @@
 define('base/base-view',
     [
-        'jquery', 
-        'backbone'
+        'backbone',
+        'backbone-template'
     ], 
-    function($, Backbone){
+    function(Backbone, Templater){
     'use strict';
+
+    var htmlToEl = function(str){
+        var el = document.createElement('div');
+        el.innerHTML = str;
+        return el.parentElement;
+    };
     
     var BaseView = Backbone.View.extend({
     
@@ -14,12 +20,13 @@ define('base/base-view',
                 renderTemplate = function(){
                     var model = (_this.model && _this.model.attributes) ? _this.model.attributes : (_this.model ? _this.model : {}),
                         attr = _.extend({ t: App.translate }, model, _this.options);
-                    _this.$el.html(template(attr));
+
+                    _this.el.appendChild(htmlToEl(template(attr)));
                     return _this;
                 };
                 
-            if ( _.isString(template) ) { //its a string
-                template = _.template(template);
+            if ( typeof template === 'string' ) { //its a string
+                template = Templater(template);
             }
             
             return renderTemplate();
