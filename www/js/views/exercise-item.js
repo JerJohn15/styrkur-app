@@ -1,5 +1,6 @@
 define('views/exercise-item',
     [
+        'backbone',
         'base/base-view',
         'templates/exercise-item.html',
         'models/exercise-instance',
@@ -7,8 +8,10 @@ define('views/exercise-item',
         'models/set-instance',
         'views/set-item'
     ],
-    function(BaseView, Template, InstanceModel, SetCollection, SetModel, SetView){
+    function(Backbone, BaseView, Template, InstanceModel, SetCollection, SetModel, SetView){
     'use strict';
+
+    var _ = Backbone.utils;
 
     var view = BaseView.extend({
 
@@ -67,7 +70,7 @@ define('views/exercise-item',
                 lastWorkout = _this.findSetFromLastWorkout(index);
 
             view.model = model;
-            $.extend(view.options, { 
+            _.extend(view.options, { 
                     index: index + 1, 
                     exercise: _this.model,
                     lastReps: lastWorkout ? lastWorkout.get('reps') || 0 : 0,
@@ -81,7 +84,7 @@ define('views/exercise-item',
 
             _this.children.push(view);
 
-            _this.$('.sets-list').append( view.render().el );
+            _this.$('.sets-list', true).appendChild( view.render().el );
         },
 
         events: {

@@ -32,8 +32,9 @@ define('base/parent-view',
     
         Close: function() {
             //Close all child views
-            _.each(this.children, function(view, selector){
-                view.Close();
+            var _this = this;
+            Object.keys(this.children).forEach(function(selector){
+                _this.children[selector].Close();
             });
             this.children = {};
         

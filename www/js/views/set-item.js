@@ -1,11 +1,13 @@
 define('views/set-item',
     [
+        'backbone',
         'base/base-view',
         'templates/set-item.html'
-        ,'backbone.stickit'
     ],
-    function(BaseView, Template, SessionInstances){
+    function(Backbone, BaseView, Template, SessionInstances){
     'use strict';
+
+    var _ = Backbone.utils;
     
     var View = BaseView.extend({
     
@@ -29,7 +31,7 @@ define('views/set-item',
 
             _this.toggleViews();
 
-            _this.stickit();
+            //_this.stickit();
 
             return _this;
         },
@@ -40,10 +42,10 @@ define('views/set-item',
                 matched = App.enums.workoutTypes[exType];
 
             _.each(matched, function(item){
-                _this.$('.type-' + item).show();
+                _this.$('.type-' + item, true).style.display = 'block';
             });
         },
-
+/*
         bindings: {
             '.input-reps': 'reps',
             '.input-weight': 'weight',
@@ -52,7 +54,7 @@ define('views/set-item',
             '.input-time': 'time',
             '.input-comment': 'comment'
         },
-
+*/
         events: {
             'click .btn-comment': 'toggle-comment',
 

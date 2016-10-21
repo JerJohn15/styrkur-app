@@ -42,7 +42,7 @@ define('base/list-view',
 
             _this.children.push(itemView);
             
-            _this.$(_this.listSelector).append(itemView.render().el);
+            _this.$(_this.listSelector, true).appendChild(itemView.render().el);
         },
 
         reRenderChildren: function(){
@@ -64,7 +64,7 @@ define('base/list-view',
 
                 _this.children.push(itemView);
 
-                _this.$(_this.listSelector).append(itemView.render().el);
+                _this.$(_this.listSelector, true).appendChild(itemView.render().el);
             });
         },
         

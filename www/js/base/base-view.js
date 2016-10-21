@@ -27,7 +27,7 @@ define('base/base-view',
                     return _this;
                 };
                 
-            if ( typeof template === 'string' ) { //its a string
+            if ( typeof template === 'string' ) {
                 template = Templater(template);
             }
             

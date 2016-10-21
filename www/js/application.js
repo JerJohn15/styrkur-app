@@ -14,10 +14,10 @@ define('application',[
                 onDone = function(){
                     document.querySelector(selectedArea.selector).appendChild(view.render().el);
 
-                    view.el.classList.add('slide-in');
                     _once(view.el, 'animationend webkitAnimationEnd oAnimationEnd', function(){
                             view.el.classList.remove('slide-in');
                         });
+                    view.el.classList.add('slide-in');
 
                     selectedArea.view = view;
                     return view;
@@ -44,13 +44,13 @@ define('application',[
                 var oldView = selectedArea.view;
                 selectedArea.view = undefined;
 
-                oldView.el.classList.add('slide-back');
                 _once(oldView.el, 'animationend webkitAnimationEnd oAnimationEnd', function(){
                     oldView.Close();
                     if(callback){
                         callback();
                     }
                 });
+                oldView.el.classList.add('slide-back');
             }
         },
         _once = (function(){
@@ -60,6 +60,7 @@ define('application',[
                 var name = Date.now().getTime();
                 var eventList = eventListners[name] = events.split(' ').map(function(evnt){
                     return {
+                        el: el,
                         evnt: evnt,
                         name: name,
                         cb: callback,
@@ -71,13 +72,13 @@ define('application',[
                 eventList.forEach(function(evnt){
                     var evntCB = evnt.eventCB = function(){
                             eventListners[evnt.name].forEach(function(evntItem){
-                                el.removeEventListener(evntItem.evnt, evntItem.cb);
+                                evntItem.el.removeEventListener(evntItem.evnt, evntItem.eventCB, false);
                             });
                             delete eventListners[evnt.name];
                             evnt.cb.apply(evnt.context, arguments);
                         };
 
-                    el.addEventListener(evnt, evntCB, false);
+                    evnt.el.addEventListener(evnt.evnt, evnt.eventCB, false);
                 });
             }
         }()),
