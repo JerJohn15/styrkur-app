@@ -3,11 +3,12 @@ define('views/exercises',
         'base/list-view',
         'templates/exercises.html',
         'models/session-instance',
+        'models/exercise-instance',
         'views/exercise-item',
         'collections/session-instances',
         'backbone'
     ],
-    function(BaseView, Template, Model, ExItemView, Collection, Backbone){
+    function(BaseView, Template, Model, ExModel, ExItemView, Collection, Backbone){
     'use strict';
     
     var View = BaseView.extend({
@@ -18,7 +19,7 @@ define('views/exercises',
             var _this = this,
             	sessionId = _this.model.get('id');
                 
-        	_this.instance = new Model({ parent: sessionId });
+        	_this.instance = _this.instance || new Model({ parent: sessionId });
             //Filter exercises to enabled
         	_this.collection = new Backbone.Collection(_this.model.get('exercises').filter(function(item){
                     return item.get('enabled') === undefined || item.get('enabled');
@@ -45,6 +46,27 @@ define('views/exercises',
             });
 
             return _this;
+        },
+
+        renderChildren: function(){
+            var _this = this;
+
+            _this.collection.each(function(item){
+              debugger;
+                var itemView = new _this.ItemView();
+                itemView.model = item;
+
+                itemView.instance = _this.instance.get('exercises').findWhere({ 'exercise': item.get('id') });
+
+                if(_this.options){
+                    itemView.options = itemView.options || {};
+                    _.extend(itemView.options, { parent: _this.options });
+                }
+
+                _this.children.push(itemView);
+
+                _this.$(_this.listSelector).append(itemView.render().el);
+            });
         },
 
         listSelector: '.exercise-list',

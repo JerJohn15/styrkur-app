@@ -15,6 +15,14 @@ define('models/exercise-instance',
             sets: undefined
         },
 
+        parse: function(attr, options){
+            if(attr.sets){
+                attr.sets = new Sets(attr.sets);
+            }
+            
+            return Model.__super__.parse.call(this, attr, options);
+        },
+
         initialize: function(attr, options){
             this.set('date', new Date());
             this.set('sets', new Sets((attr && attr.sets) ? attr.sets: undefined));
