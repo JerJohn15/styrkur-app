@@ -49,18 +49,15 @@ define('plugins/setup',
 
             require(['models/workout', 'workoutplans/' + cfg.workout], function(Model, Workout){
                 var model = new Model(Workout);
-                debugger;
                 model.sync('create', model, {
                     success: function(mdl){
-                        debugger;
-                        App.User.set('workout', model.id);
+                        App.User.set('workout', mdl.id);
                         if(!cfg.silent){
                             App.toast('success', 'Successfully added workout.');
                         }
                         _getDefaultWorkout(deferred);
                     },
                     error: function(){
-                        debugger;
                         console.log('Error loading workout, "' + cfg.workout + '"', arguments);
                         if(!cfg.silent){
                             App.toast('error', 'Failed loading workout.');
@@ -180,6 +177,10 @@ define('plugins/setup',
             else if(_versionNewerThan(version, '1.1.4')){
                 //Create workouts..
                 _doUpdates('1.1.4', deferred);
+            }
+            else if(_versionNewerThan(version, '1.1.6')){
+                //Create workouts..
+                _doUpdates('1.1.6', deferred);
             }
             else {
                 deferred.resolve(version);

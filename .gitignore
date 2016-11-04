@@ -12,7 +12,9 @@
 # Generated files
 mobile/platforms/android/bin/
 mobile/platforms/android/gen/
-
+mobile/platforms/
+mobile/plugins/
+mobile/www/
 
 # IOS
 # not sure what to add here?
