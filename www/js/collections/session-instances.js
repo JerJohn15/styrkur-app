@@ -10,7 +10,9 @@ define('collections/session-instances',
         
         model: Model,
         
-        store: Model.prototype.store,
+        storeName: Model.prototype.storeName,
+
+        database: Model.prototype.database,
 
         comparator: function(ab) {
             return ab.get('date') ? (this.asc ? (new Date(ab.get('date'))).getTime() : -(new Date(ab.get('date'))).getTime()) : undefined;

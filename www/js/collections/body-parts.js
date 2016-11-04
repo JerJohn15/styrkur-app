@@ -10,7 +10,9 @@ define('collections/body-parts',
         
         model: Model,
         
-        store: Model.prototype.store,
+        storeName: Model.prototype.storeName,
+
+        database: Model.prototype.database
 
     });
     

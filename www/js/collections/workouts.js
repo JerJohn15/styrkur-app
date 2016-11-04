@@ -8,8 +8,10 @@ define('collections/workouts',
     return  Backbone.Collection.extend({
         
         model: Model,
+        
+        storeName: Model.prototype.storeName,
 
-        store: Model.prototype.store
+        database: Model.prototype.database
         
     });
     

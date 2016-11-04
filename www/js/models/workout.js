@@ -40,7 +40,9 @@ define('models/workout',
             return clone;
         },
 
-        store: new WebSQLStore(db, 'workout')
+        storeName: 'workout',
+
+        database: window.styrkurdb
         
     });
 

@@ -52,7 +52,7 @@
                 'backbone': '../libs/backbone/backbone',
                 'backbone.stickit': '../libs/backbone/backbone.stickit',
                 'backbone-wreqr': '../libs/backbone/backbone-wreqr',
-                'backbone-websql': '../libs/backbone/backbone-websql',
+                'backbone-db': '../libs/backbone/backbone.indexeddb',
                 'text': '../libs/requirejs/text',
                 'moment': '../libs/moment/moment',
                 'toastr': '../libs/toastr/toastr',
@@ -61,8 +61,11 @@
             },
             shim: {
                 'backbone': {
-                    deps: ['underscore', 'jquery', ''],
+                    deps: ['underscore', 'jquery'],
                     exports: 'Backbone'
+                },
+                'backbone-db': {
+                    deps: ['backbone']
                 },
                 'underscore': {
                     exports: '_'
@@ -82,11 +85,11 @@
             'application',
             'router',
             'backbone',
-            'backbone-websql'
+            'plugins/dbsetup',
+            'backbone-db'
             ,'js/templates/templates.js'
-        ], function ($, _, Application, Router, Backbone, WebSQLStore) {
-            window.db = openDatabase('fittracker', '', 'Styrkur db', 5 * 1024 * 1024);
-            window.WebSQLStore = WebSQLStore;
+        ], function ($, _, Application, Router, Backbone, DBSetup) {
+            window.styrkurdb = DBSetup;
             window.App = Application;
 
             Application.initialize(Router);

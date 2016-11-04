@@ -4,12 +4,16 @@ require([
     'application',
     'router',
     'backbone',
-    'backbone-websql',
+    'backbone-db',
     'templates/templates',
     'chartist',
     'plugins/setup',
     'plugins/side-menu',
     'i18next',
+    'plugins/dbsetup',
+
+    'translations/en',
+    'translations/is',
 
     /* Collections */
     'collections/users', 'collections/exercise-instances',

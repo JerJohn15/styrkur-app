@@ -16,7 +16,9 @@ define('models/body-part',
 
         idAttribute: 'id',
 
-        store: new WebSQLStore(db, 'bodypart')
+        storeName: 'bodypart',
+
+        database: window.styrkurdb
 
     });
 

@@ -49,15 +49,18 @@ define('plugins/setup',
 
             require(['models/workout', 'workoutplans/' + cfg.workout], function(Model, Workout){
                 var model = new Model(Workout);
+                debugger;
                 model.sync('create', model, {
-                    success: function(){
-                        App.User.set('workout', model.get('id'));
+                    success: function(mdl){
+                        debugger;
+                        App.User.set('workout', model.id);
                         if(!cfg.silent){
                             App.toast('success', 'Successfully added workout.');
                         }
                         _getDefaultWorkout(deferred);
                     },
                     error: function(){
+                        debugger;
                         console.log('Error loading workout, "' + cfg.workout + '"', arguments);
                         if(!cfg.silent){
                             App.toast('error', 'Failed loading workout.');
@@ -89,6 +92,7 @@ define('plugins/setup',
                         success: onComplete,
                         error: function(){
                             console.log('Failed to add bodypart to sql');
+                            deferred.resolve();
                         }
                     });
 
@@ -106,13 +110,17 @@ define('plugins/setup',
                     success: function(){
                         App.Workout = model;
                         deferred.resolve();
+                    },
+                    error: function(){
+                        console.log('Failed to load workout..');
+                        deferred.resolve();
                     }
                 });
             });
 
             return deferred.promise();
         },
-        _getUser = function(onComplete){
+        _getUser = function(){
             var _this = this,
                 setUser = function(collection, arr, options){
                     var user;
@@ -148,7 +156,11 @@ define('plugins/setup',
                 var collection = new Collection();
                 collection.fetch({
                     limit: 1,
-                    success: setUser
+                    success: setUser,
+                    error: function(){
+                        console.log('Failed to get users..');
+                        setUser();
+                    }
                 });
             });
 
@@ -199,6 +211,18 @@ define('plugins/setup',
                                 });
 
                                 _doUpdates(version, updDeferred);
+                            },
+                            error: function(){
+                                var updDeferred = $.Deferred();
+
+                                updDeferred.promise().then(function(version){
+                                    appInformation.set('version', version);
+                                    appInformation.sync('update', appInformation, { success: function(){} });
+
+                                    deferred.resolve({version: version });
+                                });
+
+                                _doUpdates('0.0.0', updDeferred);
                             }
                         });
                     });
@@ -211,6 +235,7 @@ define('plugins/setup',
                             App.User.sync('update', App.User, { success: function(){} });
                             App.setColorPalette(App.User.get('colorpalette') || 'blue' );
                         });
+                    console.log(App.User.attributes);
 
                     if(data.firstTime){
                         //TODO: find out what exercise fits this person the best!

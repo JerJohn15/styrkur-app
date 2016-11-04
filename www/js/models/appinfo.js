@@ -18,7 +18,9 @@ define('models/appinfo',
             }
         },
 
-        store: new WebSQLStore(db, 'appinfo')
+        storeName: 'appinfo',
+
+        database: window.styrkurdb
         
     });
 

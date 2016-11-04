@@ -14,7 +14,9 @@ define('models/measurement',
             items: undefined
         },
 
-        store: new WebSQLStore(db, 'measurement')
+        storeName: 'measurement',
+
+        database: window.styrkurdb
 
     });
 

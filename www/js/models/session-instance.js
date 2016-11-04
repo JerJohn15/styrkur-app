@@ -33,10 +33,9 @@ define('models/session-instance',
             return clone;
         },
 
-        store: new WebSQLStore(db, 'session-instance', [
-                {name: 'parent', selector: 'parent', type: 'string'},
-                {name: 'date', selector: 'date', type: 'number'}
-            ])
+        storeName: 'session-instance',
+
+        database: window.styrkurdb
 
     });
 

@@ -20,7 +20,9 @@ define('models/user',
             colorpalette: 'blue'
         },
 
-        store: new WebSQLStore(db, 'user')
+        storeName: 'user',
+
+        database: window.styrkurdb
 
     });
 

@@ -15,9 +15,9 @@ define('models/movement',
 
         idAttribute: 'id',
 
-        store: new WebSQLStore(db, 'movement', [
-                {name: 'muscle', selector: 'muscle', type: 'string'}
-            ])
+        storeName: 'movement',
+
+        database: window.styrkurdb
 
     });
 

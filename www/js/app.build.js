@@ -5,7 +5,7 @@
         'backbone': '../libs/backbone/backbone',
         'backbone.stickit': '../libs/backbone/backbone.stickit',
         'backbone-wreqr': '../libs/backbone/backbone-wreqr',
-        'backbone-websql': '../libs/backbone/backbone-websql',
+        'backbone-db': '../libs/backbone/backbone.indexeddb',
         'moment': '../libs/moment/moment',
         'toastr': '../libs/toastr/toastr',
         'chartist': '../libs/chart/chartist',
@@ -24,6 +24,9 @@
         },
         'backbone.stickit': {
             deps: ['backbone', 'jquery']
+        },
+        'backbone-db': {
+            deps: ['backbone']
         }
     },
 
