@@ -19,7 +19,7 @@ a, .btn-link {color: #333;}
 p > .icon {margin-right: 8px;}
 .btn-transparent { background: transparent; font-size: 1.6em; padding: 4px; margin: 0; }
 .btn-transparent:focus {outline: none;}
-#bodycontainer { padding-top: 49px; }
+#bodycontainer { padding-top: 48px; }
 .pre { white-space: pre-line; }
 
 /* form control with icon */
