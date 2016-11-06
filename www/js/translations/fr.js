@@ -30,7 +30,9 @@ define('translations/fr',
                 'min': 'min',
                 'enabled': 'Activé',
                 'toggledisabled': 'Interrupteur désactivé',
-                'description': 'Description'
+                'description': 'Description',
+                'delete': 'Supprimer',
+                'edit': 'Modifier'
             },
             'measure': {
                 'title': 'Mesures',
@@ -61,6 +63,10 @@ define('translations/fr',
                 'get': 'Voir plus...',
                 'setcurr': 'Définir comme programme actuel',
                 'current': 'Ceci est votre programme d\'entraînement actuel'
+            },
+            'history': {
+                'deletetitle': 'Supprimer un élément',
+                'deletetext': 'Cette suppression ne peut pas être annulée.'
             },
             'workout': {
                 'reps': 'Répétitions',
