@@ -30,7 +30,9 @@ define('translations/en',
                 'min': 'min',
                 'enabled': 'Enabled',
                 'toggledisabled': 'Toggle disabled',
-                'description': 'Description'
+                'description': 'Description',
+                'delete': 'Delete',
+                'edit': 'Edit'
             },
             'measure': {
                 'title': 'Measurements',
@@ -61,6 +63,10 @@ define('translations/en',
                 'get': 'Get more..',
                 'setcurr': 'Set as current',
                 'current': 'This is your current workout plan'
+            },
+            'history': {
+                'deletetitle': 'Delete item',
+                'deletetext': 'Deleting this can not be undone.'
             },
             'workout': {
                 'reps': 'Reps',

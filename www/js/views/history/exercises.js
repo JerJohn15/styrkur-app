@@ -6,10 +6,9 @@ define('views/history/exercises',
         'collections/exercises',
         'collections/exercise-instances',
         'views/history/exercises-item',
-        'base/base-view',
         'moment'
     ],
-    function(BaseView, Template, SessionModel, ExerciseCollection, ExInsCollection, ItemView, DEVView){
+    function(BaseView, Template, SessionModel, ExerciseCollection, ExInsCollection, ItemView){
     'use strict';
 
     var View = BaseView.extend({
@@ -75,11 +74,11 @@ define('views/history/exercises',
 
                 require(['components/confirm'], function(Confirm){
                     _this.confirmBox = new Confirm({
-                        title: 'Delete instance',
-                        text: 'Deleting this instance can not be undone',
-                        confirmtext: 'Delete',
+                        title: App.translate('history.deletetitle'),
+                        text: App.translate('history.deletetext'),
+                        confirmtext: App.translate('shared.delete'),
                         confirmdanger: true,
-                        canceltext: 'Cancel',
+                        canceltext: App.translate('shared.cancel'),
                         cancelFn: function(){
                             _this.closeConfirmBox();
                         },

@@ -2459,7 +2459,7 @@ define('router',['backbone'], function(Backbone){
                     collection = view.collection = new Collection();
 
                 collection.fetch({
-                    filters: { parent: '11111111-1111-1111-1111-111111111111' },
+                    filter: function(item){ return item.parent === '11111111-1111-1111-1111-111111111111'; },
                     success: function(){
                         App.showView(view);
                     },
@@ -2553,7 +2553,7 @@ define('router',['backbone'], function(Backbone){
                     collection = new Collection(),
                     onFetch = function(){
                         collection.fetch({
-                            filters: { parent: id },
+                            filter: function(item){ return item.parent === id; },
                             orderby: 'date',
                             ordertype: 'asc',
                             success: function(){
@@ -2588,7 +2588,7 @@ define('router',['backbone'], function(Backbone){
                     },
                     onModelComplete = function(){
                         collection.fetch({
-                            filters: { parent: id },
+                            filter: function(item){ return item.parent === id; },
                             success: function(){
                                 view.collection = collection;
                                 App.showView(view);
@@ -3872,7 +3872,11 @@ __p += '<div class="view-header">\n	<h2>' +
 ((__t = ( session.name )) == null ? '' : __t) +
 '</h2>\n  <div class="pull-right">\n    <a class="btn btn-default" href="#/workout/edit/' +
 ((__t = ( id )) == null ? '' : __t) +
-'">Edit<a/>\n    <button class="btn btn-danger btn-delete">Delete</button>\n  </div>\n	<p class="date">\n		<i class="icon icon-calendar"></i>\n		' +
+'">' +
+((__t = ( t('shared.edit') )) == null ? '' : __t) +
+'<a/>\n    <button class="btn btn-danger btn-delete">' +
+((__t = ( t('shared.delete') )) == null ? '' : __t) +
+'</button>\n  </div>\n	<p class="date">\n		<i class="icon icon-calendar"></i>\n		' +
 ((__t = (formatedDate)) == null ? '' : __t) +
 '\n	</p>\n	';
  if(session.description) { ;
@@ -7953,9 +7957,9 @@ define('plugins/setup',
                         });
                 });
             }
-            else if(_versionNewerThan(version, '1.1.7')){
+            else if(_versionNewerThan(version, '1.2.0')){
                 //Create workouts..
-                _doUpdates('1.1.7', deferred);
+                _doUpdates('1.2.0', deferred);
             }
             else {
                 deferred.resolve(version);
@@ -8162,7 +8166,9 @@ define('translations/en',
                 'min': 'min',
                 'enabled': 'Enabled',
                 'toggledisabled': 'Toggle disabled',
-                'description': 'Description'
+                'description': 'Description',
+                'delete': 'Delete',
+                'edit': 'Edit'
             },
             'measure': {
                 'title': 'Measurements',
@@ -8193,6 +8199,10 @@ define('translations/en',
                 'get': 'Get more..',
                 'setcurr': 'Set as current',
                 'current': 'This is your current workout plan'
+            },
+            'history': {
+                'deletetitle': 'Delete item',
+                'deletetext': 'Deleting this can not be undone.'
             },
             'workout': {
                 'reps': 'Reps',
@@ -8283,7 +8293,9 @@ define('translations/is',
                 'min': 'mín',
                 'enabled': 'Virkt',
                 'toggledisabled': 'Sjá/fela virka',
-                'description': 'Lýsing'
+                'description': 'Lýsing',
+                'delete': 'Eyða',
+                'edit': 'Breyta'
             },
             'measure': {
                 'title': 'Mælingar',
@@ -8314,6 +8326,10 @@ define('translations/is',
                 'get': 'Sækja fleiri..',
                 'setcurr': 'Nota þessa',
                 'current': 'Þetta er núverandi'
+            },
+            'history': {
+                'deletetitle': 'Eyða',
+                'deletetext': 'Þú getur ekki hætt við seinna.'
             },
             'workout': {
                 'reps': 'Reps',
@@ -8599,8 +8615,8 @@ define('models/session-instance',
         },
 
         parse: function(attr, options){
-            if(attr.exercises){
-                attr.exercises = new Exercises(attr.exercises);
+            if(attr.exercises && !(attr.exercises instanceof Backbone.Collection)){
+                attr.exercises = new Exercises(attr.exercises || []);
             }
             
             return Model.__super__.parse.call(this, attr, options);
@@ -8611,8 +8627,10 @@ define('models/session-instance',
             if(!attr.date){
                 this.set('date', (new Date()).getTime());
             }
-            this.set('exercises', new Exercises(attr.exercises));
 
+            if(!(attr.exercises instanceof Backbone.Collection)){
+                attr.exercises = new Exercises(attr.exercises || []);
+            }
             return Model.__super__.initialize.apply(this, arguments);
         },
 
@@ -9495,7 +9513,7 @@ define('base/base-view',
             var _this = this,
                 template = _this.Template,
                 renderTemplate = function(){
-                    var model = (_this.model && _this.model.attributes) ? _this.model.attributes : (_this.model ? _this.model : {}),
+                    var model = (_this.model && _this.model.toJSON) ? _this.model.toJSON() : (_this.model ? _this.model : {}),
                         attr = _.extend({ t: App.translate }, model, _this.options);
                     _this.$el.html(template(attr));
                     return _this;
@@ -12349,11 +12367,12 @@ define('views/exercises',
         'templates/exercises.html',
         'models/session-instance',
         'models/exercise-instance',
+        'collections/exercise-instances',
         'views/exercise-item',
         'collections/session-instances',
         'backbone'
     ],
-    function(BaseView, Template, Model, ExModel, ExItemView, Collection, Backbone){
+    function(BaseView, Template, Model, ExModel, ExCollection, ExItemView, Collection, Backbone){
     'use strict';
     
     var View = BaseView.extend({
@@ -12373,19 +12392,16 @@ define('views/exercises',
             _this.options.comment = _this.instance.get('comment');
 
             //Filter exercises to enabled
+            // 
         	_this.collection = new Backbone.Collection(_this.model.get('exercises').filter(function(item){
-                    return item.get('enabled') === undefined || item.get('enabled');
-                }));
+                        return item.get('enabled') === undefined || item.get('enabled');
+                    }));
 
             var allWorkouts = new Collection();
-
             allWorkouts.fetch({
-                orderby: 'date',
-                ordertype: 'desc',
-                limit: 1,
-                filters: { parent: _this.model.get('id') },
-                success: function(){
-                    _this.lastWorkout = allWorkouts.length ? allWorkouts.pop() : undefined;
+                filter: function(item){ return item.parent === _this.model.get('id'); },
+                success: function(collection, array, options){
+                    _this.lastWorkout = allWorkouts.length ? allWorkouts.at(0) : undefined;
 
                     _this.ItemView = ExItemView.extend({
                         options: {
@@ -12404,12 +12420,15 @@ define('views/exercises',
             var _this = this;
 
             _this.collection.each(function(item){
-              debugger;
                 var itemView = new _this.ItemView();
                 itemView.model = item;
 
-                itemView.instance = _this.instance.get('exercises').findWhere({ 'exercise': item.get('id') });
-
+                itemView.instance = undefined;
+                var exercises = _this.instance.get('exercises');
+                if(exercises){
+                    itemView.instance = exercises.findWhere({ 'exercise': item.get('id') });    
+                }
+                
                 if(_this.options){
                     itemView.options = itemView.options || {};
                     _.extend(itemView.options, { parent: _this.options });
@@ -12436,6 +12455,10 @@ define('views/exercises',
             _this.instance.set('comment', _this.$('textarea[name="comment"]').val());
 
             var exList = _this.instance.get('exercises');
+            if(!exList){
+                exList = new ExCollection();
+                _this.instance.set('exercises', exList);
+            }
 
             _.each(_this.children, function(view){
                 exList.add(view.instance); 
@@ -12616,7 +12639,7 @@ define('views/widgets/chart',
                     dmonth = (date - 3 * 2592000000); //last 3 months
 
                 collection.fetch({
-                    filters: 'date between ' + dmonth + ' and ' + dnow,
+                    filter: function(item){ return item.date > dmonth && item.date < dnow; },  //'date between ' + dmonth + ' and ' + dnow,
                     success: function(col, items){
 
                         var dates = _.map(items, function(a){ return a.date; }),
@@ -12829,10 +12852,9 @@ define('views/history/exercises',
         'collections/exercises',
         'collections/exercise-instances',
         'views/history/exercises-item',
-        'base/base-view',
         'moment'
     ],
-    function(BaseView, Template, SessionModel, ExerciseCollection, ExInsCollection, ItemView, DEVView){
+    function(BaseView, Template, SessionModel, ExerciseCollection, ExInsCollection, ItemView){
     'use strict';
 
     var View = BaseView.extend({
@@ -12898,11 +12920,11 @@ define('views/history/exercises',
 
                 require(['components/confirm'], function(Confirm){
                     _this.confirmBox = new Confirm({
-                        title: 'Delete instance',
-                        text: 'Deleting this instance can not be undone',
-                        confirmtext: 'Delete',
+                        title: App.translate('history.deletetitle'),
+                        text: App.translate('history.deletetext'),
+                        confirmtext: App.translate('shared.delete'),
                         confirmdanger: true,
-                        canceltext: 'Cancel',
+                        canceltext: App.translate('shared.cancel'),
                         cancelFn: function(){
                             _this.closeConfirmBox();
                         },
@@ -14702,6 +14724,60 @@ define('components/menu',[
 
 });
 
+define('components/confirm',[
+        'backbone',
+        'base/base-view',
+        'templates/confirm.html'
+    ], function (Backbone, BaseView, Template) {
+    'use strict';
+    
+    var view = BaseView.extend({
+
+        initialize: function(options){
+            this.options = options;
+        },
+
+        Template: Template,
+
+        render: function(){
+            var _this = this;
+
+            view.__super__.render.apply(_this, arguments);
+
+            _this.$el.show();
+
+            setTimeout(function(){
+                _this.$el.show().addClass('in');
+            }, 300);
+
+            return _this;
+        },
+
+        events: {
+            'click .btn-cancel': 'cancel-click',
+            'click .btn-confirm': 'confirm-click'
+        },
+
+        'cancel-click': function(e){
+            if(this.options.cancelFn){
+                this.options.cancelFn(e);
+            }
+        },
+
+        'confirm-click': function(e){
+            if(this.options.confirmFn){
+                this.options.confirmFn(e);
+            }
+        },
+
+        className: 'confirm-modal modal fade'
+        
+    });
+
+    return view;
+
+});
+
 define('views/freerun/freerun-item',
     [
         'base/base-view',
@@ -15072,10 +15148,10 @@ define('views/freerun/history-session',
                 var _this = this,
                     els = [];
 
-                _.each(_this.model.get('exercises'), function(exercise){
-                    var exId = exercise.id,//get('id'),
-                        muscleId = exercise.muscle,//.get('muscle'),
-                        movementId = exercise.exercise,// .get('exercise'),
+                _this.model.get('exercises').each(function(exercise){
+                    var exId = exercise.get('id'),
+                        muscleId = exercise.get('muscle'),
+                        movementId = exercise.get('exercise'),
                         muscle = _this.options.muscles.findWhere({id: muscleId}),
                         movement = _this.options.movements.findWhere({id: movementId}),
                         view = new ItemView({

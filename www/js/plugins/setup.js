@@ -174,9 +174,9 @@ define('plugins/setup',
                         });
                 });
             }
-            else if(_versionNewerThan(version, '1.1.7')){
+            else if(_versionNewerThan(version, '1.2.0')){
                 //Create workouts..
-                _doUpdates('1.1.7', deferred);
+                _doUpdates('1.2.0', deferred);
             }
             else {
                 deferred.resolve(version);

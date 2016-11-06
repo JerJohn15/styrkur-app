@@ -1,8 +1,8 @@
 <div class="view-header">
 	<h2><%= session.name %></h2>
   <div class="pull-right">
-    <a class="btn btn-default" href="#/workout/edit/<%= id %>">Edit<a/>
-    <button class="btn btn-danger btn-delete">Delete</button>
+    <a class="btn btn-default" href="#/workout/edit/<%= id %>"><%= t('shared.edit') %><a/>
+    <button class="btn btn-danger btn-delete"><%= t('shared.delete') %></button>
   </div>
 	<p class="date">
 		<i class="icon icon-calendar"></i>

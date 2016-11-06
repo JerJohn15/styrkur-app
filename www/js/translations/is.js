@@ -30,7 +30,9 @@ define('translations/is',
                 'min': 'mín',
                 'enabled': 'Virkt',
                 'toggledisabled': 'Sjá/fela virka',
-                'description': 'Lýsing'
+                'description': 'Lýsing',
+                'delete': 'Eyða',
+                'edit': 'Breyta'
             },
             'measure': {
                 'title': 'Mælingar',
@@ -61,6 +63,10 @@ define('translations/is',
                 'get': 'Sækja fleiri..',
                 'setcurr': 'Nota þessa',
                 'current': 'Þetta er núverandi'
+            },
+            'history': {
+                'deletetitle': 'Eyða',
+                'deletetext': 'Þú getur ekki hætt við seinna.'
             },
             'workout': {
                 'reps': 'Reps',

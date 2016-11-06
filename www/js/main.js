@@ -12,6 +12,7 @@ require([
     'i18next',
     'plugins/dbsetup',
 
+
     'translations/en',
     'translations/is',
 
@@ -41,6 +42,7 @@ require([
     'views/license',
     'views/plan/server-list',
     'components/menu',
+    'components/confirm',
     'views/freerun/freerun',
     'views/freerun/freerun-history-list',
     'views/freerun/history-session',
