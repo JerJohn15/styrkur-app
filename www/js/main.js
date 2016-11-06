@@ -24,6 +24,10 @@ require([
     'collections/movements', 'collections/muscles',
     'models/appinfo', 'plugins/movements',
 
+    'translations/en',
+    'translations/fr',
+    'translations/is',
+
     /* Views */
     'views/workout-wizard', 'views/menu', 'views/dashboard',
     'views/history/session-list',
