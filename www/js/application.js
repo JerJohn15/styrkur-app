@@ -128,7 +128,7 @@ define('application',[
 
         languages: {
             'en': 'English',
-            'fr': 'Français'
+            'fr': 'Français',
             'is': 'Íslenska'
         },
 
