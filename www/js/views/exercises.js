@@ -4,36 +4,41 @@ define('views/exercises',
         'templates/exercises.html',
         'models/session-instance',
         'models/exercise-instance',
+        'collections/exercise-instances',
         'views/exercise-item',
         'collections/session-instances',
         'backbone'
     ],
-    function(BaseView, Template, Model, ExModel, ExItemView, Collection, Backbone){
+    function(BaseView, Template, Model, ExModel, ExCollection, ExItemView, Collection, Backbone){
     'use strict';
     
     var View = BaseView.extend({
+
+        initialize: function(){
+            this.options = this.options || {};
+            View.__super__.initialize.apply(this, arguments);
+        },
     
         Template: Template,
 
         render: function(){
             var _this = this,
             	sessionId = _this.model.get('id');
-                
+
         	_this.instance = _this.instance || new Model({ parent: sessionId });
+            _this.options.comment = _this.instance.get('comment');
+
             //Filter exercises to enabled
+            // 
         	_this.collection = new Backbone.Collection(_this.model.get('exercises').filter(function(item){
-                    return item.get('enabled') === undefined || item.get('enabled');
-                }));
+                        return item.get('enabled') === undefined || item.get('enabled');
+                    }));
 
             var allWorkouts = new Collection();
-
             allWorkouts.fetch({
-                orderby: 'date',
-                ordertype: 'desc',
-                limit: 1,
-                filters: { parent: _this.model.get('id') },
-                success: function(){
-                    _this.lastWorkout = allWorkouts.length ? allWorkouts.pop() : undefined;
+                filter: function(item){ return item.parent === _this.model.get('id'); },
+                success: function(collection, array, options){
+                    _this.lastWorkout = allWorkouts.length ? allWorkouts.at(0) : undefined;
 
                     _this.ItemView = ExItemView.extend({
                         options: {
@@ -52,12 +57,15 @@ define('views/exercises',
             var _this = this;
 
             _this.collection.each(function(item){
-              debugger;
                 var itemView = new _this.ItemView();
                 itemView.model = item;
 
-                itemView.instance = _this.instance.get('exercises').findWhere({ 'exercise': item.get('id') });
-
+                itemView.instance = undefined;
+                var exercises = _this.instance.get('exercises');
+                if(exercises){
+                    itemView.instance = exercises.findWhere({ 'exercise': item.get('id') });    
+                }
+                
                 if(_this.options){
                     itemView.options = itemView.options || {};
                     _.extend(itemView.options, { parent: _this.options });
@@ -84,6 +92,10 @@ define('views/exercises',
             _this.instance.set('comment', _this.$('textarea[name="comment"]').val());
 
             var exList = _this.instance.get('exercises');
+            if(!exList){
+                exList = new ExCollection();
+                _this.instance.set('exercises', exList);
+            }
 
             _.each(_this.children, function(view){
                 exList.add(view.instance); 

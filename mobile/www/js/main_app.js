@@ -2282,6 +2282,7 @@ define('router',['backbone'], function(Backbone){
             'settings(/)': 'settings',
             'workout(/)': 'workout',
             'workout/:id(/)': 'do-workout',
+            'workout/edit/:id(/)': 'edit-workout',
 
             /* Free workout */
             'freerun(/)': 'freerun',
@@ -2383,11 +2384,34 @@ define('router',['backbone'], function(Backbone){
 
                 App.showView(view);
             });
+        },
 
+        'edit-workout': function(id){
+            require([
+                    'views/exercises',
+                    'models/session-instance'
+                ], 
+                function(View, Instance){
+                    var view = new View();
+
+                    view.instance = new Instance({ id: id });
+
+                    view.parentModel = App.Workout;
+
+                    view.instance.fetch({
+                        success: function(){
+                            view.model = App.Workout.get('sessions').findWhere({ 
+                              id: view.instance.get('parent')
+                            });
+
+                            App.showView(view);
+                        }
+                    });
+
+                });
         },
 
         /* Free-run start */
-
         'freerun': function(){
             require([
                     'views/freerun/freerun', 
@@ -3364,6 +3388,23 @@ __p += '<div class="card">\n	<h1>Styrkur</h1>\n	<em>v ' +
 }
 return __p
 }});
+define("templates/confirm.html", function(){ return function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div class="modal-dialog">\n    <div class="modal-content">\n      <div class="modal-header">\n        <h4 class="modal-title">' +
+((__t = ( title )) == null ? '' : __t) +
+'</h4>\n      </div>\n      <div class="modal-body">\n        <p>' +
+((__t = ( text )) == null ? '' : __t) +
+'</p>\n      </div>\n      <div class="modal-footer">\n        <button type="button" class="btn btn-default btn-cancel">' +
+((__t = ( canceltext )) == null ? '' : __t) +
+'</button>\n        <button type="button" class="btn btn-primary btn-confirm">' +
+((__t = ( confirmtext )) == null ? '' : __t) +
+'</button>\n      </div>\n    </div>\n</div>';
+
+}
+return __p
+}});
 define("templates/create/exercise-item.html", function(){ return function(obj) {
 obj || (obj = {});
 var __t, __p = '', __j = Array.prototype.join;
@@ -3571,7 +3612,9 @@ __p += '\n	<p class="description">\n		<i class="icon icon-pen"></i>\n		' +
  } ;
 __p += '\n</div>\n<div class="exercise-list">\n</div>\n\n<div class="card">\n	<label>' +
 ((__t = ( t('shared.comment') )) == null ? '' : __t) +
-'</label>\n	<textarea name="comment" class="form-control"></textarea>\n\n	<div class="container-padding">\n		<button class="btn btn-primary btn-save">' +
+'</label>\n	<textarea name="comment" class="form-control">' +
+((__t = ( comment )) == null ? '' : __t) +
+'</textarea>\n\n	<div class="container-padding">\n		<button class="btn btn-primary btn-save">' +
 ((__t = ( t('shared.complete') )) == null ? '' : __t) +
 '</button>\n		<a class="btn btn-link" href="#/workout/">' +
 ((__t = ( t('shared.close') )) == null ? '' : __t) +
@@ -3827,7 +3870,9 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<div class="view-header">\n	<h2>' +
 ((__t = ( session.name )) == null ? '' : __t) +
-'</h2>\n	<p class="date">\n		<i class="icon icon-calendar"></i>\n		' +
+'</h2>\n  <div class="pull-right">\n    <a class="btn btn-default" href="#/workout/edit/' +
+((__t = ( id )) == null ? '' : __t) +
+'">Edit<a/>\n    <button class="btn btn-danger btn-delete">Delete</button>\n  </div>\n	<p class="date">\n		<i class="icon icon-calendar"></i>\n		' +
 ((__t = (formatedDate)) == null ? '' : __t) +
 '\n	</p>\n	';
  if(session.description) { ;
@@ -7783,18 +7828,15 @@ define('plugins/setup',
 
             require(['models/workout', 'workoutplans/' + cfg.workout], function(Model, Workout){
                 var model = new Model(Workout);
-                debugger;
                 model.sync('create', model, {
                     success: function(mdl){
-                        debugger;
-                        App.User.set('workout', model.id);
+                        App.User.set('workout', mdl.id);
                         if(!cfg.silent){
                             App.toast('success', 'Successfully added workout.');
                         }
                         _getDefaultWorkout(deferred);
                     },
                     error: function(){
-                        debugger;
                         console.log('Error loading workout, "' + cfg.workout + '"', arguments);
                         if(!cfg.silent){
                             App.toast('error', 'Failed loading workout.');
@@ -7911,9 +7953,9 @@ define('plugins/setup',
                         });
                 });
             }
-            else if(_versionNewerThan(version, '1.1.4')){
+            else if(_versionNewerThan(version, '1.1.7')){
                 //Create workouts..
-                _doUpdates('1.1.4', deferred);
+                _doUpdates('1.1.7', deferred);
             }
             else {
                 deferred.resolve(version);
@@ -7969,7 +8011,6 @@ define('plugins/setup',
                             App.User.sync('update', App.User, { success: function(){} });
                             App.setColorPalette(App.User.get('colorpalette') || 'blue' );
                         });
-                    console.log(App.User.attributes);
 
                     if(data.firstTime){
                         //TODO: find out what exercise fits this person the best!
@@ -8435,6 +8476,14 @@ define('models/exercise-instance',
             sets: undefined
         },
 
+        parse: function(attr, options){
+            if(attr.sets){
+                attr.sets = new Sets(attr.sets);
+            }
+            
+            return Model.__super__.parse.call(this, attr, options);
+        },
+
         initialize: function(attr, options){
             this.set('date', new Date());
             this.set('sets', new Sets((attr && attr.sets) ? attr.sets: undefined));
@@ -8547,6 +8596,14 @@ define('models/session-instance',
             parent: undefined,
             comment: undefined,
             exercises: undefined
+        },
+
+        parse: function(attr, options){
+            if(attr.exercises){
+                attr.exercises = new Exercises(attr.exercises);
+            }
+            
+            return Model.__super__.parse.call(this, attr, options);
         },
 
         initialize: function(attr, options){
@@ -12197,17 +12254,21 @@ define('views/exercise-item',
         render: function(){
             var _this = this,
                 exerciseId = _this.model.get('id'),
-                instance = new InstanceModel({ exercise: exerciseId }),
+                editMode = !!_this.instance,
+                instance = _this.instance || new InstanceModel({ exercise: exerciseId }),
                 setColl = instance.get('sets'),
-                numbSets = parseInt(_this.model.get('sets'));
+                numbSets = Math.max(setColl.length, parseInt(_this.model.get('sets')));
 
             view.__super__.render.apply(_this, arguments);
 
             for(var i = 0; i < numbSets; i++){
-                var model = new SetModel();
+                var model = setColl.at(i);
 
-                setColl.add(model);
-
+                if(!model){
+                    model = new SetModel();
+                    setColl.add(model);
+                }
+                
                 this.renderSet(model, i);
             }
 
@@ -12287,22 +12348,30 @@ define('views/exercises',
         'base/list-view',
         'templates/exercises.html',
         'models/session-instance',
+        'models/exercise-instance',
         'views/exercise-item',
         'collections/session-instances',
         'backbone'
     ],
-    function(BaseView, Template, Model, ExItemView, Collection, Backbone){
+    function(BaseView, Template, Model, ExModel, ExItemView, Collection, Backbone){
     'use strict';
     
     var View = BaseView.extend({
+
+        initialize: function(){
+            this.options = this.options || {};
+            View.__super__.initialize.apply(this, arguments);
+        },
     
         Template: Template,
 
         render: function(){
             var _this = this,
             	sessionId = _this.model.get('id');
-                
-        	_this.instance = new Model({ parent: sessionId });
+
+        	_this.instance = _this.instance || new Model({ parent: sessionId });
+            _this.options.comment = _this.instance.get('comment');
+
             //Filter exercises to enabled
         	_this.collection = new Backbone.Collection(_this.model.get('exercises').filter(function(item){
                     return item.get('enabled') === undefined || item.get('enabled');
@@ -12329,6 +12398,27 @@ define('views/exercises',
             });
 
             return _this;
+        },
+
+        renderChildren: function(){
+            var _this = this;
+
+            _this.collection.each(function(item){
+              debugger;
+                var itemView = new _this.ItemView();
+                itemView.model = item;
+
+                itemView.instance = _this.instance.get('exercises').findWhere({ 'exercise': item.get('id') });
+
+                if(_this.options){
+                    itemView.options = itemView.options || {};
+                    _.extend(itemView.options, { parent: _this.options });
+                }
+
+                _this.children.push(itemView);
+
+                _this.$(_this.listSelector).append(itemView.render().el);
+            });
         },
 
         listSelector: '.exercise-list',
@@ -12777,7 +12867,7 @@ define('views/history/exercises',
                 _this.session.get('exercises').each(function(exercise){
                     var view = new ItemView(),
                         exId = exercise.get('id'),
-                        instance = _.find(_this.model.get('exercises'), function(it){ return it.exercise === exId; });
+                        instance = _this.model.get('exercises').findWhere({ 'exercise': exId });
 
                     if(!instance){
                         return;
@@ -12785,7 +12875,7 @@ define('views/history/exercises',
 
                     view.model = {
                         exercise : exercise.toJSON(),
-                        instance: instance
+                        instance: instance.toJSON()
                     };
 
                     _this.children.push(view);
@@ -12798,7 +12888,45 @@ define('views/history/exercises',
             },
 
             events: {
-                'click .btn-back': 'go-back'
+                'click .btn-back': 'go-back',
+                'click .btn-delete': 'delete'
+            },
+
+            'delete': function(e){
+                e.preventDefault();
+                var _this = this;
+
+                require(['components/confirm'], function(Confirm){
+                    _this.confirmBox = new Confirm({
+                        title: 'Delete instance',
+                        text: 'Deleting this instance can not be undone',
+                        confirmtext: 'Delete',
+                        confirmdanger: true,
+                        canceltext: 'Cancel',
+                        cancelFn: function(){
+                            _this.closeConfirmBox();
+                        },
+                        confirmFn: function(){
+                            _this.deleteItem();
+                            _this.closeConfirmBox();
+                        }
+                    });
+
+                    $(document.body).append(_this.confirmBox.render().el);
+                });
+            },
+
+            deleteItem: function(){
+                var _this = this;
+                _this.model.destroy({
+                    success: function(){
+                        App.toast('success', 'Item removed');
+                        window.history.back();
+                    },
+                    error: function(){
+                        App.toast('info', 'Failed to remove item');
+                    }
+                })
             },
 
             'go-back': function(e){
@@ -12807,12 +12935,21 @@ define('views/history/exercises',
                 window.history.back();
             },
 
+            closeConfirmBox: function(){
+                var _this = this;
+                if(_this.confirmBox){
+                    _this.confirmBox.Close();
+                    delete _this.confirmBox;
+                }           
+            },
+
             Close: function(){
                 var _this = this;
                 _.each(_this.children, function(child){
                     child.Close();
                 });
                 _this.children = [];
+                _this.closeConfirmBox();
 
                 View.__super__.Close.apply(_this, arguments);
             }

@@ -174,13 +174,9 @@ define('plugins/setup',
                         });
                 });
             }
-            else if(_versionNewerThan(version, '1.1.4')){
+            else if(_versionNewerThan(version, '1.1.7')){
                 //Create workouts..
-                _doUpdates('1.1.4', deferred);
-            }
-            else if(_versionNewerThan(version, '1.1.6')){
-                //Create workouts..
-                _doUpdates('1.1.6', deferred);
+                _doUpdates('1.1.7', deferred);
             }
             else {
                 deferred.resolve(version);
@@ -236,7 +232,6 @@ define('plugins/setup',
                             App.User.sync('update', App.User, { success: function(){} });
                             App.setColorPalette(App.User.get('colorpalette') || 'blue' );
                         });
-                    console.log(App.User.attributes);
 
                     if(data.firstTime){
                         //TODO: find out what exercise fits this person the best!

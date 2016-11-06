@@ -40,7 +40,7 @@ define('views/widgets/chart',
                     dmonth = (date - 3 * 2592000000); //last 3 months
 
                 collection.fetch({
-                    filters: 'date between ' + dmonth + ' and ' + dnow,
+                    filter: function(item){ return item.date > dmonth && item.date < dnow; },  //'date between ' + dmonth + ' and ' + dnow,
                     success: function(col, items){
 
                         var dates = _.map(items, function(a){ return a.date; }),

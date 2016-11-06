@@ -17,8 +17,8 @@ define('models/session-instance',
         },
 
         parse: function(attr, options){
-            if(attr.exercises){
-                attr.exercises = new Exercises(attr.exercises);
+            if(attr.exercises && !(attr.exercises instanceof Backbone.Collection)){
+                attr.exercises = new Exercises(attr.exercises || []);
             }
             
             return Model.__super__.parse.call(this, attr, options);
@@ -29,8 +29,10 @@ define('models/session-instance',
             if(!attr.date){
                 this.set('date', (new Date()).getTime());
             }
-            this.set('exercises', new Exercises(attr.exercises));
 
+            if(!(attr.exercises instanceof Backbone.Collection)){
+                attr.exercises = new Exercises(attr.exercises || []);
+            }
             return Model.__super__.initialize.apply(this, arguments);
         },
 

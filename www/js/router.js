@@ -187,7 +187,7 @@ define(['backbone'], function(Backbone){
                     collection = view.collection = new Collection();
 
                 collection.fetch({
-                    filters: { parent: '11111111-1111-1111-1111-111111111111' },
+                    filter: function(item){ return item.parent === '11111111-1111-1111-1111-111111111111'; },
                     success: function(){
                         App.showView(view);
                     },
@@ -281,7 +281,7 @@ define(['backbone'], function(Backbone){
                     collection = new Collection(),
                     onFetch = function(){
                         collection.fetch({
-                            filters: { parent: id },
+                            filter: function(item){ return item.parent === id; },
                             orderby: 'date',
                             ordertype: 'asc',
                             success: function(){
@@ -316,7 +316,7 @@ define(['backbone'], function(Backbone){
                     },
                     onModelComplete = function(){
                         collection.fetch({
-                            filters: { parent: id },
+                            filter: function(item){ return item.parent === id; },
                             success: function(){
                                 view.collection = collection;
                                 App.showView(view);

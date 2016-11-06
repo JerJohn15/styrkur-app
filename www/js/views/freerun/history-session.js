@@ -36,10 +36,10 @@ define('views/freerun/history-session',
                 var _this = this,
                     els = [];
 
-                _.each(_this.model.get('exercises'), function(exercise){
-                    var exId = exercise.id,//get('id'),
-                        muscleId = exercise.muscle,//.get('muscle'),
-                        movementId = exercise.exercise,// .get('exercise'),
+                _this.model.get('exercises').each(function(exercise){
+                    var exId = exercise.get('id'),
+                        muscleId = exercise.get('muscle'),
+                        movementId = exercise.get('exercise'),
                         muscle = _this.options.muscles.findWhere({id: muscleId}),
                         movement = _this.options.movements.findWhere({id: movementId}),
                         view = new ItemView({
