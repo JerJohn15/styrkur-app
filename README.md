@@ -16,9 +16,21 @@ and graphical view of your progress.
 Track your measurements, weight and muscle gain with a simple and charts.
 
 ---------------
+### All translations are welcome!
+Please use [Weblate](https://hosted.weblate.org/projects/styrkur/translations/).
 
-Available on Play Store and App Store and F-Droid!
+We are currently working on German and Spanish.
+Please just send a request/issue if you want your native language.
 
+Thanks to Michal Čihař for creating [Weblate](http://weblate.org) and Styrkur there.
+
+---------------
+
+Available on Play Store and App Store, F-Droid and now Ubuntu store!
+
+<a href="https://uappexplorer.com/app/styrkur.styrkurapp">
+	<img alt="Get it on Ubuntu Store" src="http://styrkurapp.com/images/ubuntu.png" height="45">
+</a>
 <a href="https://play.google.com/store/apps/details?id=com.styrkurapp.app&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
 	<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge-border.png" height="45" />
 </a>
